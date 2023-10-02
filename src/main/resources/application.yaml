@@ -1,0 +1,20 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://${DB_HOST}:27017
+      database: ${DB_NAME}
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
+
+KarmaAppPosts:
+  grpc:
+    default:
+      port: 50051
+      threadAmount: 8

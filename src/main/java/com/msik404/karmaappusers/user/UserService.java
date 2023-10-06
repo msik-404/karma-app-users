@@ -3,7 +3,7 @@ package com.msik404.karmaappusers.user;
 import java.util.Optional;
 
 import com.mongodb.client.result.UpdateResult;
-import com.msik404.karmaappusers.user.dto.PasswordOnlyDto;
+import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
 import com.msik404.karmaappusers.user.dto.RoleOnlyDto;
 import com.msik404.karmaappusers.user.dto.UserDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
@@ -46,13 +46,8 @@ public class UserService {
         }
     }
 
-    public String findHashedPassword(@NonNull String email) throws UserDocumentNotFoundException {
-
-        final Optional<PasswordOnlyDto> optionalPasswordDto = repository.findByEmail(email);
-        if (optionalPasswordDto.isEmpty()) {
-            throw new UserDocumentNotFoundException();
-        }
-        return optionalPasswordDto.get().password();
+    public IdAndHashedPasswordOnlyDto findHashedPassword(@NonNull String email) throws UserDocumentNotFoundException {
+        return repository.findByEmail(email).orElseThrow(UserDocumentNotFoundException::new);
     }
 
     public Role findRole(@NonNull ObjectId userId) throws UserDocumentNotFoundException {

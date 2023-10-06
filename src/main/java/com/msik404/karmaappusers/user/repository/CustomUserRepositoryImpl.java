@@ -1,9 +1,6 @@
 package com.msik404.karmaappusers.user.repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.mongodb.client.result.UpdateResult;
 import com.msik404.karmaappusers.user.UserDocument;
@@ -70,7 +67,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 ops.getCollectionName(UserDocument.class)
         );
 
-        List<String> results = new ArrayList<>(userIds.size());
+        List<String> results = new ArrayList<>(Collections.nCopies(userIds.size(), null));
         for (IdAndUsernameOnlyDto dto : queryResults) {
             results.set(userIdToIdx.get(dto.id()), dto.username());
         }

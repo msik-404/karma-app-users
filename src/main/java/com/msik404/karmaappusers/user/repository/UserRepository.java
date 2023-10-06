@@ -12,8 +12,10 @@ import org.springframework.lang.NonNull;
 
 public interface UserRepository extends MongoRepository<UserDocument, ObjectId>, CustomUserRepository {
 
+    @NonNull
     Optional<IdAndHashedPasswordOnlyDto> findByEmail(@NonNull String email);
 
+    @NonNull
     @Query("{ '_id' :  ?0 }")
     Optional<RoleOnlyDto> findByUserId(@NonNull ObjectId userId);
 

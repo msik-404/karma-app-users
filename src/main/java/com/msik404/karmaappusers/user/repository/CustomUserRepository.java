@@ -9,8 +9,10 @@ import org.springframework.lang.NonNull;
 
 public interface CustomUserRepository {
 
+    @NonNull
     UpdateResult updateUser(@NonNull UserDto userDto);
 
+    @NonNull
     List<String> findUsernames(@NonNull List<ObjectId> userIds);
 
 }

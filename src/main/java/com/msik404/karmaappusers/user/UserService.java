@@ -46,10 +46,12 @@ public class UserService {
         }
     }
 
+    @NonNull
     public IdAndHashedPasswordOnlyDto findHashedPassword(@NonNull String email) throws UserDocumentNotFoundException {
         return repository.findByEmail(email).orElseThrow(UserDocumentNotFoundException::new);
     }
 
+    @NonNull
     public Role findRole(@NonNull ObjectId userId) throws UserDocumentNotFoundException {
 
         final Optional<RoleOnlyDto> optionalRoleDto = repository.findByUserId(userId);

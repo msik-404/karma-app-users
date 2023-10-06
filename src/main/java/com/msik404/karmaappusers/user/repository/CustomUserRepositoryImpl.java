@@ -19,6 +19,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     private final MongoOperations ops;
 
+    @NonNull
     @Override
     public UpdateResult updateUser(@NonNull UserDto userDto) {
 
@@ -48,6 +49,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         return ops.updateFirst(query, update, UserDocument.class);
     }
 
+    @NonNull
     @Override
     public List<String> findUsernames(@NonNull List<ObjectId> userIds) {
 

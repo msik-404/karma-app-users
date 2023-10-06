@@ -1,6 +1,7 @@
 package com.msik404.karmaappusers.user.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.mongodb.client.result.UpdateResult;
 import com.msik404.karmaappusers.user.dto.UserDto;
@@ -13,6 +14,6 @@ public interface CustomUserRepository {
     UpdateResult updateUser(@NonNull UserDto userDto);
 
     @NonNull
-    List<String> findUsernames(@NonNull List<ObjectId> userIds);
+    List<Optional<String>> findUsernames(@NonNull List<ObjectId> userIds);
 
 }

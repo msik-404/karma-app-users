@@ -1,6 +1,7 @@
 package com.msik404.karmaappusers.user.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.msik404.karmaappusers.MongoConfiguration;
 import com.msik404.karmaappusers.TestingDataGenerator;
@@ -68,11 +69,11 @@ class UserRepositoryTest {
 
         // given
         final List<ObjectId> ids = TestingDataGenerator.TEST_USER_DOCS.stream().map(UserDocument::getId).toList();
-        final List<String> groundTruth = TestingDataGenerator.TEST_USER_DOCS.stream()
-                .map(UserDocument::getUsername).toList();
+        final List<Optional<String>> groundTruth = TestingDataGenerator.TEST_USER_DOCS.stream()
+                .map(doc -> Optional.of(doc.getUsername())).toList();
 
         // when
-        final List<String> usernames = repository.findUsernames(ids);
+        final List<Optional<String>> usernames = repository.findUsernames(ids);
 
         // then
         assertEquals(groundTruth.size(), usernames.size());
@@ -88,14 +89,14 @@ class UserRepositoryTest {
         final List<ObjectId> ids = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
                 .map(UserDocument::getId).toList());
 
-        final List<String> groundTruth = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
-                .map(UserDocument::getUsername).toList());
+        final List<Optional<String>> groundTruth = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
+                .map(doc -> Optional.of(doc.getUsername())).toList());
 
         ids.add(3, ObjectId.get());
-        groundTruth.add(3, null);
+        groundTruth.add(3, Optional.empty());
 
         // when
-        final List<String> usernames = repository.findUsernames(ids);
+        final List<Optional<String>> usernames = repository.findUsernames(ids);
 
         // then
         assertEquals(groundTruth.size(), usernames.size());

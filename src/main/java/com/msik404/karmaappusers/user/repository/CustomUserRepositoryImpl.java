@@ -51,7 +51,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @NonNull
     @Override
-    public List<String> findUsernames(@NonNull List<ObjectId> userIds) {
+    public List<Optional<String>> findUsernames(@NonNull List<ObjectId> userIds) {
 
         assert !userIds.isEmpty();
 
@@ -69,9 +69,9 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 ops.getCollectionName(UserDocument.class)
         );
 
-        List<String> results = new ArrayList<>(Collections.nCopies(userIds.size(), null));
+        List<Optional<String>> results = new ArrayList<>(Collections.nCopies(userIds.size(), Optional.empty()));
         for (IdAndUsernameOnlyDto dto : queryResults) {
-            results.set(userIdToIdx.get(dto.id()), dto.username());
+            results.set(userIdToIdx.get(dto.id()), Optional.of(dto.username()));
         }
 
         return results;

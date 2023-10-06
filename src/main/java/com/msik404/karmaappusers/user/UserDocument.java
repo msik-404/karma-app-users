@@ -8,7 +8,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 @Data
-@Document(collation = "users")
+@Document(collection = "users")
 public class UserDocument {
 
     private ObjectId id;

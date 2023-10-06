@@ -1,14 +1,21 @@
 package com.msik404.karmaappusers.user.repository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mongodb.client.result.UpdateResult;
 import com.msik404.karmaappusers.user.UserDocument;
 import com.msik404.karmaappusers.user.dto.UserDto;
-import lombok.NonNull;
+import com.msik404.karmaappusers.user.dto.IdAndUsernameOnlyDto;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.lang.NonNull;
 
 @RequiredArgsConstructor
 public class CustomUserRepositoryImpl implements CustomUserRepository {
@@ -18,28 +25,57 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     @Override
     public UpdateResult updateUser(@NonNull UserDto userDto) {
 
+        assert userDto.userId() != null;
+
         final var update = new Update();
-        if (userDto.getFirstName() != null) {
-            update.set("firstName", userDto.getFirstName());
+        if (userDto.firstName() != null) {
+            update.set("firstName", userDto.firstName());
         }
-        if (userDto.getLastName() != null) {
-            update.set("lastName", userDto.getLastName());
+        if (userDto.lastName() != null) {
+            update.set("lastName", userDto.lastName());
         }
-        if (userDto.getUsername() != null) {
-            update.set("username", userDto.getUsername());
+        if (userDto.username() != null) {
+            update.set("username", userDto.username());
         }
-        if (userDto.getEmail() != null) {
-            update.set("email", userDto.getEmail());
+        if (userDto.email() != null) {
+            update.set("email", userDto.email());
         }
-        if (userDto.getPassword() != null) {
-            update.set("password", userDto.getPassword());
+        if (userDto.password() != null) {
+            update.set("password", userDto.password());
         }
-        if (userDto.getRole() != null) {
-            update.set("role", userDto.getRole());
+        if (userDto.role() != null) {
+            update.set("role", userDto.role());
         }
 
-        final var query = new Query(Criteria.where("id").is(userDto.getUserId()));
+        final var query = new Query(Criteria.where("id").is(userDto.userId()));
         return ops.updateFirst(query, update, UserDocument.class);
+    }
+
+    @Override
+    public List<String> findUsernames(@NonNull List<ObjectId> userIds) {
+
+        assert !userIds.isEmpty();
+
+        final Map<ObjectId, Integer> userIdToIdx = new HashMap<>(userIds.size());
+        for (int i = 0; i < userIds.size(); i++) {
+            userIdToIdx.put(userIds.get(i), i);
+        }
+
+        final var query = new Query(Criteria.where("_id").in(userIds));
+        query.fields().include("_id", "username");
+
+        final List<IdAndUsernameOnlyDto> queryResults =  ops.find(
+                query,
+                IdAndUsernameOnlyDto.class,
+                ops.getCollectionName(UserDocument.class)
+        );
+
+        List<String> results = new ArrayList<>(userIds.size());
+        for (IdAndUsernameOnlyDto dto : queryResults) {
+            results.set(userIdToIdx.get(dto.id()), dto.username());
+        }
+
+        return results;
     }
 
 }

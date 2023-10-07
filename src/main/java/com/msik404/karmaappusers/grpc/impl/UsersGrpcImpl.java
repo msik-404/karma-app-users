@@ -17,6 +17,9 @@ import com.msik404.karmaappusers.user.UserDocument;
 import com.msik404.karmaappusers.user.UserService;
 import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
 import com.msik404.karmaappusers.user.dto.UserDto;
+import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
+import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
+import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
 import com.msik404.karmaappusers.user.exception.UserDocumentNotFoundException;
 import com.msik404.karmaappusers.user.repository.UserRepository;
 import io.grpc.Status;
@@ -73,7 +76,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(Empty.getDefaultInstance());
             responseObserver.onCompleted();
 
-        } catch (UnsupportedRoleException ex) {
+        } catch (UnsupportedRoleException | DuplicateUsernameException | DuplicateEmailException |
+                 DuplicateUnexpectedFieldException ex) {
             responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription(ex.getMessage())
                     .asRuntimeException()
@@ -96,7 +100,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(Empty.getDefaultInstance());
             responseObserver.onCompleted();
 
-        } catch (UnsupportedRoleException ex) {
+        } catch (UnsupportedRoleException | DuplicateUsernameException | DuplicateEmailException |
+                 DuplicateUnexpectedFieldException ex) {
             responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription(ex.getMessage())
                     .asRuntimeException()

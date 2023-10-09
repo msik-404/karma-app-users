@@ -7,6 +7,7 @@ services:
     build: .
     env_file:
       - .env
+    hostname: ${KARMA_APP_USERS_HOST}
     ports:
       - 50052:50051
     networks:

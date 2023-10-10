@@ -4,8 +4,8 @@ import java.util.*;
 
 import com.mongodb.client.result.UpdateResult;
 import com.msik404.karmaappusers.user.UserDocument;
-import com.msik404.karmaappusers.user.dto.UserDto;
 import com.msik404.karmaappusers.user.dto.IdAndUsernameOnlyDto;
+import com.msik404.karmaappusers.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -63,7 +63,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         final var query = new Query(Criteria.where("_id").in(userIds));
         query.fields().include("_id", "username");
 
-        final List<IdAndUsernameOnlyDto> queryResults =  ops.find(
+        final List<IdAndUsernameOnlyDto> queryResults = ops.find(
                 query,
                 IdAndUsernameOnlyDto.class,
                 ops.getCollectionName(UserDocument.class)

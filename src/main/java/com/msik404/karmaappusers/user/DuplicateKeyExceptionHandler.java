@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
 
 public class DuplicateKeyExceptionHandler {
 
-    public static void handle(@NonNull  DuplicateKeyException ex)
+    public static void handle(@NonNull DuplicateKeyException ex)
             throws DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         final String errorMessage = ex.getMostSpecificCause().getMessage();

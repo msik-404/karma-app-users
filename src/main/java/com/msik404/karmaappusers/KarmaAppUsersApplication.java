@@ -17,34 +17,34 @@ import org.springframework.context.annotation.Bean;
 @RequiredArgsConstructor
 public class KarmaAppUsersApplication {
 
-	@Value("${KarmaAppPosts.grpc.default.threadAmount}")
-	private int threadPoolSize;
+    @Value("${KarmaAppPosts.grpc.default.threadAmount}")
+    private int threadPoolSize;
 
-	@Value("${KarmaAppPosts.grpc.default.port}")
-	private int defaultGrpcPort;
+    @Value("${KarmaAppPosts.grpc.default.port}")
+    private int defaultGrpcPort;
 
-	private final UsersGrpcImpl grpcImpl;
+    private final UsersGrpcImpl grpcImpl;
 
-	public static void main(String[] args) {
-		SpringApplication.run(KarmaAppUsersApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(KarmaAppUsersApplication.class, args);
+    }
 
-	@Bean
-	public CommandLineRunner runner() {
-		return (args) -> {
-			System.out.println("GRPC SERVER WILL RUN HERE");
+    @Bean
+    public CommandLineRunner runner() {
+        return (args) -> {
+            System.out.println("GRPC SERVER WILL RUN HERE");
 
-			final ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(threadPoolSize);
+            final ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(threadPoolSize);
 
-			final Server server = ServerBuilder
-					.forPort(defaultGrpcPort)
-					.executor(threadPoolExecutor)
-					.addService(grpcImpl)
-					.build();
+            final Server server = ServerBuilder
+                    .forPort(defaultGrpcPort)
+                    .executor(threadPoolExecutor)
+                    .addService(grpcImpl)
+                    .build();
 
-			server.start();
-			server.awaitTermination();
-		};
-	}
+            server.start();
+            server.awaitTermination();
+        };
+    }
 
 }

@@ -121,7 +121,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             final IdAndHashedPasswordOnlyDto credentials = service.findCredentials(request.getEmail());
 
             final var response = CredentialsResponse.newBuilder()
-                    .setUserId(credentials.id().toString())
+                    .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toString()).build())
                     .setPassword(credentials.password())
                     .build();
 
@@ -147,7 +147,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         }
 
         try {
-            final Role role = service.findRole(new ObjectId(request.getUserId()));
+            final Role role = service.findRole(new ObjectId(request.getUserId().getHexString()));
 
             final var response = UserRoleResponse.newBuilder()
                     .setRole(RoleMapper.map(role))
@@ -174,7 +174,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             return;
         }
 
-        final List<ObjectId> userIds = request.getUserIdsList().stream().map(ObjectId::new).toList();
+        final List<ObjectId> userIds = request.getUserIdsList().stream()
+                .map(grpcId -> new ObjectId(grpcId.getHexString()))
+                .toList();
 
         final List<Optional<String>> usernames = repository.findUsernames(userIds);
 

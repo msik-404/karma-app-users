@@ -27,7 +27,7 @@ public class GrpcToDocMapper {
     public static UserDto map(@NonNull UpdateUserRequest request) throws UnsupportedRoleException {
 
         return new UserDto(
-                new ObjectId(request.getUserId()),
+                new ObjectId(request.getUserId().getHexString()),
                 request.hasFirstName() ? request.getFirstName() : null,
                 request.hasLastName() ? request.getLastName() : null,
                 request.hasUsername() ? request.getUsername() : null,

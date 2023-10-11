@@ -20,6 +20,10 @@ service Users {
 
 }
 
+message MongoObjectId {
+  optional string hexString = 1 [(buf.validate.field).string.len = 24, (buf.validate.field).required = true];
+}
+
 enum UserRole {
   ROLE_USER = 0;
   ROLE_MOD = 1;
@@ -36,7 +40,7 @@ message CreateUserRequest {
 }
 
 message UpdateUserRequest {
-  optional string userId = 1 [(buf.validate.field).string.len = 24, (buf.validate.field).required = true];
+  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
   optional string firstName = 2;
   optional string lastName = 3;
   optional string username = 4;
@@ -50,12 +54,12 @@ message CredentialsRequest {
 }
 
 message CredentialsResponse {
-  optional string userId = 1 [(buf.validate.field).string.len = 24, (buf.validate.field).required = true];
+  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
   optional string password = 2 [(buf.validate.field).required = true];
 }
 
 message UserRoleRequest {
-  optional string userId = 1 [(buf.validate.field).string.len = 24, (buf.validate.field).required = true];
+  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
 }
 
 message UserRoleResponse {
@@ -63,10 +67,9 @@ message UserRoleResponse {
 }
 
 message UsernamesRequest {
-  repeated string userIds = 1 [
+  repeated MongoObjectId userIds = 1 [
     (buf.validate.field).repeated.min_items = 1,
     (buf.validate.field).repeated.unique = true,
-    (buf.validate.field).repeated.items.string.len = 24,
     (buf.validate.field).required = true
   ];
 }

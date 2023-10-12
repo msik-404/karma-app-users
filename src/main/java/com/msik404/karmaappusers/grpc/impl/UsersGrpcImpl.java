@@ -167,6 +167,25 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
+    public void findUsername(UsernameRequest request, StreamObserver<UsernameResponse> responseObserver) {
+
+        try {
+            final String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
+
+            final var response = UsernameResponse.newBuilder().setUsername(username).build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        } catch (UserDocumentNotFoundException ex) {
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription(ex.getMessage())
+                    .asRuntimeException()
+            );
+        }
+    }
+
+    @Override
     public void findUsernames(UsernamesRequest request, StreamObserver<UsernamesResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);

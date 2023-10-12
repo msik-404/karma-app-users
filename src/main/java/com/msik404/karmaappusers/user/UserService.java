@@ -6,6 +6,7 @@ import com.mongodb.client.result.UpdateResult;
 import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
 import com.msik404.karmaappusers.user.dto.RoleOnlyDto;
 import com.msik404.karmaappusers.user.dto.UserDto;
+import com.msik404.karmaappusers.user.dto.UsernameOnlyDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
@@ -54,11 +55,21 @@ public class UserService {
     @NonNull
     public Role findRole(@NonNull ObjectId userId) throws UserDocumentNotFoundException {
 
-        final Optional<RoleOnlyDto> optionalRoleDto = repository.findByUserId(userId);
+        final Optional<RoleOnlyDto> optionalRoleDto = repository.findRoleByUserId(userId);
         if (optionalRoleDto.isEmpty()) {
             throw new UserDocumentNotFoundException();
         }
         return optionalRoleDto.get().role();
+    }
+
+    @NonNull
+    public String findUsername(@NonNull ObjectId userId) throws UserDocumentNotFoundException {
+
+        final Optional<UsernameOnlyDto> optionalUsernameDto = repository.findUsernameByUserId(userId);
+        if (optionalUsernameDto.isEmpty()) {
+            throw new UserDocumentNotFoundException();
+        }
+        return optionalUsernameDto.get().username();
     }
 
 }

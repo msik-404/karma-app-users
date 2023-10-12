@@ -16,6 +16,7 @@ service Users {
 
   rpc findCredentials(CredentialsRequest) returns (CredentialsResponse) {}
   rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
+  rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
   rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
 
 }
@@ -64,6 +65,14 @@ message UserRoleRequest {
 
 message UserRoleResponse {
   optional UserRole role = 1 [(buf.validate.field).required = true];
+}
+
+message UsernameRequest {
+  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
+}
+
+message UsernameResponse {
+  optional string username = 1 [(buf.validate.field).required = true];
 }
 
 message UsernamesRequest {

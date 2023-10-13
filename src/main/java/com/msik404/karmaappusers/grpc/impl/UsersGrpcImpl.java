@@ -208,4 +208,28 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void findUserId(UserIdRequest request, StreamObserver<MongoObjectId> responseObserver) {
+
+        final boolean isSuccess = validate(request, responseObserver);
+        if (!isSuccess) {
+            return;
+        }
+
+        try {
+            final ObjectId userId = service.findUserId(request.getUsername());
+
+            final var response = MongoObjectId.newBuilder().setHexString(userId.toString()).build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        } catch (UserDocumentNotFoundException ex) {
+            responseObserver.onError(Status.NOT_FOUND
+                    .withDescription(ex.getMessage())
+                    .asRuntimeException()
+            );
+        }
+    }
+
 }

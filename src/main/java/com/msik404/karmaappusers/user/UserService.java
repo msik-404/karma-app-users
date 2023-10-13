@@ -3,10 +3,7 @@ package com.msik404.karmaappusers.user;
 import java.util.Optional;
 
 import com.mongodb.client.result.UpdateResult;
-import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
-import com.msik404.karmaappusers.user.dto.RoleOnlyDto;
-import com.msik404.karmaappusers.user.dto.UserDto;
-import com.msik404.karmaappusers.user.dto.UsernameOnlyDto;
+import com.msik404.karmaappusers.user.dto.*;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
@@ -70,6 +67,16 @@ public class UserService {
             throw new UserDocumentNotFoundException();
         }
         return optionalUsernameDto.get().username();
+    }
+
+    @NonNull
+    public ObjectId findUserId(@NonNull String username) throws UserDocumentNotFoundException {
+
+        final Optional<IdOnlyDto> optionalIdDto = repository.findUserIdByUsername(username);
+        if (optionalIdDto.isEmpty()) {
+            throw new UserDocumentNotFoundException();
+        }
+        return optionalIdDto.get().id();
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.msik404.karmaappusers.user.UserDocument;
 import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
+import com.msik404.karmaappusers.user.dto.IdOnlyDto;
 import com.msik404.karmaappusers.user.dto.RoleOnlyDto;
 import com.msik404.karmaappusers.user.dto.UsernameOnlyDto;
 import org.bson.types.ObjectId;
@@ -23,5 +24,9 @@ public interface UserRepository extends MongoRepository<UserDocument, ObjectId>,
     @NonNull
     @Query("{ '_id' :  ?0 }")
     Optional<UsernameOnlyDto> findUsernameByUserId(@NonNull ObjectId userId);
+
+    @NonNull
+    @Query("{ 'username' :  ?0 }")
+    Optional<IdOnlyDto> findUserIdByUsername(@NonNull String username);
 
 }

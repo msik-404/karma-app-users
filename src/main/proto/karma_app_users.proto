@@ -18,6 +18,7 @@ service Users {
   rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
   rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
   rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
+  rpc findUserId(UserIdRequest) returns (MongoObjectId) {}
 
 }
 
@@ -85,4 +86,8 @@ message UsernamesRequest {
 
 message UsernamesResponse {
   repeated string usernames = 1;
+}
+
+message UserIdRequest {
+  optional string username = 1 [(buf.validate.field).required = true];
 }

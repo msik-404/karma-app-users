@@ -32,11 +32,11 @@ public class UserService {
         }
     }
 
-    public void update(@NonNull UserDto userDto)
+    public void update(@NonNull UserUpdateDto userUpdateDto)
             throws UserDocumentNotFoundException, DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         try {
-            final UpdateResult result = repository.updateUser(userDto);
+            final UpdateResult result = repository.updateUser(userUpdateDto);
             if (result.getMatchedCount() == 0) {
                 throw new UserDocumentNotFoundException();
             }

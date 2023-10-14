@@ -5,7 +5,7 @@ import java.util.*;
 import com.mongodb.client.result.UpdateResult;
 import com.msik404.karmaappusers.user.UserDocument;
 import com.msik404.karmaappusers.user.dto.IdAndUsernameOnlyDto;
-import com.msik404.karmaappusers.user.dto.UserDto;
+import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -21,31 +21,29 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @NonNull
     @Override
-    public UpdateResult updateUser(@NonNull UserDto userDto) {
-
-        assert userDto.userId() != null;
+    public UpdateResult updateUser(@NonNull UserUpdateDto userUpdateDto) {
 
         final var update = new Update();
-        if (userDto.firstName() != null) {
-            update.set("firstName", userDto.firstName());
+        if (userUpdateDto.firstName() != null) {
+            update.set("firstName", userUpdateDto.firstName());
         }
-        if (userDto.lastName() != null) {
-            update.set("lastName", userDto.lastName());
+        if (userUpdateDto.lastName() != null) {
+            update.set("lastName", userUpdateDto.lastName());
         }
-        if (userDto.username() != null) {
-            update.set("username", userDto.username());
+        if (userUpdateDto.username() != null) {
+            update.set("username", userUpdateDto.username());
         }
-        if (userDto.email() != null) {
-            update.set("email", userDto.email());
+        if (userUpdateDto.email() != null) {
+            update.set("email", userUpdateDto.email());
         }
-        if (userDto.password() != null) {
-            update.set("password", userDto.password());
+        if (userUpdateDto.password() != null) {
+            update.set("password", userUpdateDto.password());
         }
-        if (userDto.role() != null) {
-            update.set("role", userDto.role());
+        if (userUpdateDto.role() != null) {
+            update.set("role", userUpdateDto.role());
         }
 
-        final var query = new Query(Criteria.where("id").is(userDto.userId()));
+        final var query = new Query(Criteria.where("id").is(userUpdateDto.userId()));
         return ops.updateFirst(query, update, UserDocument.class);
     }
 

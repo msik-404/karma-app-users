@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.msik404.karmaappusers.MongoConfiguration;
 import com.msik404.karmaappusers.TestingDataGenerator;
-import com.msik404.karmaappusers.user.dto.UserDto;
+import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
 import com.msik404.karmaappusers.user.exception.UserDocumentNotFoundException;
@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.lang.NonNull;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MongoDBContainer;
@@ -43,7 +44,7 @@ class UserServiceTest {
             .withExposedPorts(27017);
 
     @DynamicPropertySource
-    private static void registerRedisProperties(DynamicPropertyRegistry registry) {
+    private static void registerRedisProperties(@NonNull DynamicPropertyRegistry registry) {
 
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
         registry.add("spring.data.mongodb.database", () -> "test");
@@ -133,7 +134,7 @@ class UserServiceTest {
         groundTruthDoc.setUsername(newUsername);
         groundTruthDoc.setEmail(newEmail);
 
-        final UserDto updateDto = new UserDto(
+        final var updateDto = new UserUpdateDto(
                 groundTruthDoc.getId(),
                 null,
                 null,
@@ -156,7 +157,7 @@ class UserServiceTest {
     void update_DocumentDoesNotExist_UserDocumentNotFoundExceptionThrown() {
 
         // given
-        final UserDto updateDto = new UserDto(
+        final var updateDto = new UserUpdateDto(
                 ObjectId.get(),
                 null,
                 null,
@@ -179,7 +180,7 @@ class UserServiceTest {
         final String newEmail = TestingDataGenerator.getEmail(uniqueId);
         groundTruthDoc.setEmail(newEmail);
 
-        final UserDto updateDto = new UserDto(
+        final var updateDto = new UserUpdateDto(
                 groundTruthDoc.getId(),
                 null,
                 null,
@@ -202,7 +203,7 @@ class UserServiceTest {
         final String newUsername = TestingDataGenerator.getUsername(uniqueId);
         groundTruthDoc.setUsername(newUsername);
 
-        final UserDto updateDto = new UserDto(
+        final var updateDto = new UserUpdateDto(
                 groundTruthDoc.getId(),
                 null,
                 null,
@@ -220,7 +221,7 @@ class UserServiceTest {
     void update_DocumentExistsAndNotUniqueUsernameAndEmail_DuplicateUsernameExceptionThrown() {
 
         // given
-        final UserDto updateDto = new UserDto(
+        final var updateDto = new UserUpdateDto(
                 TestingDataGenerator.TEST_USER_DOCS.get(0).getId(),
                 null,
                 null,

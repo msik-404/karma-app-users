@@ -15,7 +15,7 @@ import com.msik404.karmaappusers.user.Role;
 import com.msik404.karmaappusers.user.UserDocument;
 import com.msik404.karmaappusers.user.UserService;
 import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
-import com.msik404.karmaappusers.user.dto.UserDto;
+import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
@@ -24,6 +24,7 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,7 +33,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     private final UserService service;
 
-    private static <T> boolean validate(Message request, StreamObserver<T> responseObserver) {
+    private static <T> boolean validate(@NonNull Message request, @NonNull StreamObserver<T> responseObserver) {
 
         final Validator validator = new Validator();
         try {
@@ -59,7 +60,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void createUser(CreateUserRequest request, StreamObserver<Empty> responseObserver) {
+    public void createUser(@NonNull CreateUserRequest request, @NonNull StreamObserver<Empty> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -83,7 +84,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void updateUser(UpdateUserRequest request, StreamObserver<Empty> responseObserver) {
+    public void updateUser(@NonNull UpdateUserRequest request, @NonNull StreamObserver<Empty> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -91,7 +92,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         }
 
         try {
-            final UserDto dto = GrpcToDocMapper.map(request);
+            final UserUpdateDto dto = GrpcToDocMapper.map(request);
             service.update(dto);
 
             responseObserver.onNext(Empty.getDefaultInstance());
@@ -107,7 +108,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void findCredentials(CredentialsRequest request, StreamObserver<CredentialsResponse> responseObserver) {
+    public void findCredentials(
+            @NonNull CredentialsRequest request,
+            @NonNull StreamObserver<CredentialsResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -136,7 +139,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void findUserRole(UserRoleRequest request, StreamObserver<UserRoleResponse> responseObserver) {
+    public void findUserRole(
+            @NonNull UserRoleRequest request,
+            @NonNull StreamObserver<UserRoleResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -164,7 +169,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void findUsername(UsernameRequest request, StreamObserver<UsernameResponse> responseObserver) {
+    public void findUsername(
+            @NonNull UsernameRequest request,
+            @NonNull StreamObserver<UsernameResponse> responseObserver) {
 
         try {
             final String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
@@ -183,7 +190,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void findUsernames(UsernamesRequest request, StreamObserver<UsernamesResponse> responseObserver) {
+    public void findUsernames(
+            @NonNull UsernamesRequest request,
+            @NonNull StreamObserver<UsernamesResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -204,7 +213,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void findUserId(UserIdRequest request, StreamObserver<MongoObjectId> responseObserver) {
+    public void findUserId(
+            @NonNull UserIdRequest request,
+            @NonNull StreamObserver<MongoObjectId> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {

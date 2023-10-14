@@ -4,7 +4,7 @@ import com.msik404.karmaappusers.grpc.CreateUserRequest;
 import com.msik404.karmaappusers.grpc.UpdateUserRequest;
 import com.msik404.karmaappusers.grpc.impl.exception.UnsupportedRoleException;
 import com.msik404.karmaappusers.user.UserDocument;
-import com.msik404.karmaappusers.user.dto.UserDto;
+import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import org.bson.types.ObjectId;
 import org.springframework.lang.NonNull;
 
@@ -24,9 +24,9 @@ public class GrpcToDocMapper {
     }
 
     @NonNull
-    public static UserDto map(@NonNull UpdateUserRequest request) throws UnsupportedRoleException {
+    public static UserUpdateDto map(@NonNull UpdateUserRequest request) throws UnsupportedRoleException {
 
-        return new UserDto(
+        return new UserUpdateDto(
                 new ObjectId(request.getUserId().getHexString()),
                 request.hasFirstName() ? request.getFirstName() : null,
                 request.hasLastName() ? request.getLastName() : null,

@@ -46,7 +46,9 @@ public class UserService {
     }
 
     @NonNull
-    public IdAndHashedPasswordOnlyDto findCredentials(@NonNull String email) throws UserDocumentNotFoundException {
+    public IdAndHashedPasswordAndRoleOnlyDto findCredentials(
+            @NonNull String email) throws UserDocumentNotFoundException {
+
         return repository.findByEmail(email).orElseThrow(UserDocumentNotFoundException::new);
     }
 

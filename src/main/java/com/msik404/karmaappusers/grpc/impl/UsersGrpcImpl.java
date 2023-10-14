@@ -14,7 +14,7 @@ import com.msik404.karmaappusers.grpc.impl.mapper.RoleMapper;
 import com.msik404.karmaappusers.user.Role;
 import com.msik404.karmaappusers.user.UserDocument;
 import com.msik404.karmaappusers.user.UserService;
-import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
+import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordAndRoleOnlyDto;
 import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
@@ -118,11 +118,12 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         }
 
         try {
-            final IdAndHashedPasswordOnlyDto credentials = service.findCredentials(request.getEmail());
+            final IdAndHashedPasswordAndRoleOnlyDto credentials = service.findCredentials(request.getEmail());
 
             final var response = CredentialsResponse.newBuilder()
                     .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toHexString()).build())
-                    .setPassword(credentials.password())
+                    .setPassword(credentials.hashedPassword())
+                    .setRole(RoleMapper.map(credentials.role()))
                     .build();
 
             responseObserver.onNext(response);
@@ -130,6 +131,11 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
         } catch (UserDocumentNotFoundException ex) {
             responseObserver.onError(Status.NOT_FOUND
+                    .withDescription(ex.getMessage())
+                    .asRuntimeException()
+            );
+        } catch (UnsupportedRoleException ex) {
+            responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription(ex.getMessage())
                     .asRuntimeException()
             );

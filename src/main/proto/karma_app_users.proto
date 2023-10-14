@@ -58,6 +58,7 @@ message CredentialsRequest {
 message CredentialsResponse {
   optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
   optional string password = 2 [(buf.validate.field).required = true];
+  optional UserRole role = 3 [(buf.validate.field).required = true];
 }
 
 message UserRoleRequest {

@@ -3,7 +3,7 @@ package com.msik404.karmaappusers.user.repository;
 import java.util.Optional;
 
 import com.msik404.karmaappusers.user.UserDocument;
-import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordOnlyDto;
+import com.msik404.karmaappusers.user.dto.IdAndHashedPasswordAndRoleOnlyDto;
 import com.msik404.karmaappusers.user.dto.IdOnlyDto;
 import com.msik404.karmaappusers.user.dto.RoleOnlyDto;
 import com.msik404.karmaappusers.user.dto.UsernameOnlyDto;
@@ -15,7 +15,7 @@ import org.springframework.lang.NonNull;
 public interface UserRepository extends MongoRepository<UserDocument, ObjectId>, CustomUserRepository {
 
     @NonNull
-    Optional<IdAndHashedPasswordOnlyDto> findByEmail(@NonNull String email);
+    Optional<IdAndHashedPasswordAndRoleOnlyDto> findByEmail(@NonNull String email);
 
     @NonNull
     @Query("{ '_id' :  ?0 }")

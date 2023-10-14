@@ -19,6 +19,7 @@ public class TestingDataGenerator {
         return String.format("%s@mail.com", getUsername(id));
     }
 
+    @NonNull
     public static UserDocument getTestUserDoc(int id, @NonNull Role role) {
 
         final String username = getUsername(id);
@@ -27,6 +28,7 @@ public class TestingDataGenerator {
         return new UserDocument(null, null, username, email, username, role);
     }
 
+    @NonNull
     private static List<UserDocument> getTestUserDocs() {
 
         final int userAmount = 6;
@@ -45,6 +47,7 @@ public class TestingDataGenerator {
         return users;
     }
 
+    @NonNull
     public static UserDocument copy(int idx) {
 
         assert idx < TEST_USER_DOCS.size();

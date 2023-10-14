@@ -1,7 +1,6 @@
 package com.msik404.karmaappusers.grpc.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import build.buf.protovalidate.ValidationResult;
 import build.buf.protovalidate.Validator;
@@ -21,7 +20,6 @@ import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
 import com.msik404.karmaappusers.user.exception.UserDocumentNotFoundException;
-import com.msik404.karmaappusers.user.repository.UserRepository;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +31,6 @@ import org.springframework.stereotype.Component;
 public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     private final UserService service;
-    private final UserRepository repository;
 
     private static <T> boolean validate(Message request, StreamObserver<T> responseObserver) {
 
@@ -197,12 +194,10 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
                 .map(grpcId -> new ObjectId(grpcId.getHexString()))
                 .toList();
 
-        final List<Optional<String>> usernames = repository.findUsernames(userIds);
+        final List<String> usernames = service.findUsernames(userIds);
 
         final var response = UsernamesResponse.newBuilder()
-                .addAllUsernames(
-                        usernames.stream().map(optional -> optional.orElse("")).toList()
-                ).build();
+                .addAllUsernames(usernames).build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();

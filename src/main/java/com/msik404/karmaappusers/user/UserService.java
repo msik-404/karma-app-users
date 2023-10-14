@@ -1,5 +1,6 @@
 package com.msik404.karmaappusers.user;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.mongodb.client.result.UpdateResult;
@@ -67,6 +68,14 @@ public class UserService {
             throw new UserDocumentNotFoundException();
         }
         return optionalUsernameDto.get().username();
+    }
+
+    @NonNull
+    public List<String> findUsernames(@NonNull List<ObjectId> userIds) {
+
+        final List<Optional<String>> optionalUsernames = repository.findUsernames(userIds);
+
+        return optionalUsernames.stream().map(optional -> optional.orElse("")).toList();
     }
 
     @NonNull

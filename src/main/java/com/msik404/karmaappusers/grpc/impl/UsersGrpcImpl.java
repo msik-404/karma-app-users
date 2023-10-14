@@ -118,7 +118,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             final IdAndHashedPasswordOnlyDto credentials = service.findCredentials(request.getEmail());
 
             final var response = CredentialsResponse.newBuilder()
-                    .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toString()).build())
+                    .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toHexString()).build())
                     .setPassword(credentials.password())
                     .build();
 
@@ -214,7 +214,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         try {
             final ObjectId userId = service.findUserId(request.getUsername());
 
-            final var response = MongoObjectId.newBuilder().setHexString(userId.toString()).build();
+            final var response = MongoObjectId.newBuilder().setHexString(userId.toHexString()).build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();

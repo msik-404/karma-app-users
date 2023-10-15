@@ -128,7 +128,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
             final var response = CredentialsResponse.newBuilder()
                     .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toHexString()).build())
-                    .setPassword(credentials.hashedPassword())
+                    .setPassword(credentials.password())
                     .setRole(RoleMapper.map(credentials.role()))
                     .build();
 

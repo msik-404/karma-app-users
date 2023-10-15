@@ -33,7 +33,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     private final UserService service;
 
-    private static <T> boolean validate(@NonNull Message request, @NonNull StreamObserver<T> responseObserver) {
+    private static <T> boolean validate(
+            @NonNull final Message request,
+            @NonNull final StreamObserver<T> responseObserver) {
 
         final Validator validator = new Validator();
         try {
@@ -60,7 +62,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void createUser(@NonNull CreateUserRequest request, @NonNull StreamObserver<Empty> responseObserver) {
+    public void createUser(
+            @NonNull final CreateUserRequest request,
+            @NonNull final StreamObserver<Empty> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -84,7 +88,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     }
 
     @Override
-    public void updateUser(@NonNull UpdateUserRequest request, @NonNull StreamObserver<Empty> responseObserver) {
+    public void updateUser(
+            @NonNull final UpdateUserRequest request,
+            @NonNull final StreamObserver<Empty> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -109,8 +115,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findCredentials(
-            @NonNull CredentialsRequest request,
-            @NonNull StreamObserver<CredentialsResponse> responseObserver) {
+            @NonNull final CredentialsRequest request,
+            @NonNull final StreamObserver<CredentialsResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -146,8 +152,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserRole(
-            @NonNull UserRoleRequest request,
-            @NonNull StreamObserver<UserRoleResponse> responseObserver) {
+            @NonNull final UserRoleRequest request,
+            @NonNull final StreamObserver<UserRoleResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -176,8 +182,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsername(
-            @NonNull UsernameRequest request,
-            @NonNull StreamObserver<UsernameResponse> responseObserver) {
+            @NonNull final UsernameRequest request,
+            @NonNull final StreamObserver<UsernameResponse> responseObserver) {
 
         try {
             final String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
@@ -197,8 +203,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsernames(
-            @NonNull UsernamesRequest request,
-            @NonNull StreamObserver<UsernamesResponse> responseObserver) {
+            @NonNull final UsernamesRequest request,
+            @NonNull final StreamObserver<UsernamesResponse> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -220,8 +226,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserId(
-            @NonNull UserIdRequest request,
-            @NonNull StreamObserver<MongoObjectId> responseObserver) {
+            @NonNull final UserIdRequest request,
+            @NonNull final StreamObserver<MongoObjectId> responseObserver) {
 
         final boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {

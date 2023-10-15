@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
 public class GrpcToDocMapper {
 
     @NonNull
-    public static UserDocument map(@NonNull CreateUserRequest request) throws UnsupportedRoleException {
+    public static UserDocument map(@NonNull final CreateUserRequest request) throws UnsupportedRoleException {
 
         return new UserDocument(
                 request.hasFirstName() ? request.getFirstName() : null,
@@ -24,7 +24,7 @@ public class GrpcToDocMapper {
     }
 
     @NonNull
-    public static UserUpdateDto map(@NonNull UpdateUserRequest request) throws UnsupportedRoleException {
+    public static UserUpdateDto map(@NonNull final UpdateUserRequest request) throws UnsupportedRoleException {
 
         return new UserUpdateDto(
                 new ObjectId(request.getUserId().getHexString()),

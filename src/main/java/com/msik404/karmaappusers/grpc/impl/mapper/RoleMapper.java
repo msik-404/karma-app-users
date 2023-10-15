@@ -8,7 +8,7 @@ import org.springframework.lang.NonNull;
 public class RoleMapper {
 
     @NonNull
-    public static Role map(@NonNull UserRole role) throws UnsupportedRoleException {
+    public static Role map(@NonNull final UserRole role) throws UnsupportedRoleException {
 
         switch (role) {
             case ROLE_USER -> {
@@ -25,7 +25,7 @@ public class RoleMapper {
     }
 
     @NonNull
-    public static UserRole map(@NonNull Role role) {
+    public static UserRole map(@NonNull final Role role) {
 
         switch (role) {
             case USER -> {

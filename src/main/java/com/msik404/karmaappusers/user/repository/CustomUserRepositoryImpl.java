@@ -21,7 +21,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @NonNull
     @Override
-    public UpdateResult updateUser(@NonNull UserUpdateDto userUpdateDto) {
+    public UpdateResult updateUser(@NonNull final UserUpdateDto userUpdateDto) {
 
         final var update = new Update();
         if (userUpdateDto.firstName() != null) {
@@ -49,7 +49,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @NonNull
     @Override
-    public List<Optional<String>> findUsernames(@NonNull List<ObjectId> userIds) {
+    public List<Optional<String>> findUsernames(@NonNull final List<ObjectId> userIds) {
 
         assert !userIds.isEmpty();
 

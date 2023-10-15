@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentEntity;
 import org.springframework.data.mongodb.core.mapping.MongoPersistentProperty;
+import org.springframework.lang.NonNull;
 
 @Configuration
 public class MongoConfiguration {
@@ -31,12 +32,12 @@ public class MongoConfiguration {
     }
 
     @Bean
-    public MongoDatabaseFactory mongoDatabaseFactory(MongoClient client) {
+    public MongoDatabaseFactory mongoDatabaseFactory(@NonNull final MongoClient client) {
         return new SimpleMongoClientDatabaseFactory(client, databaseName);
     }
 
     @Bean
-    public MongoTemplate mongoTemplate(MongoDatabaseFactory factory) {
+    public MongoTemplate mongoTemplate(@NonNull final MongoDatabaseFactory factory) {
         final MongoTemplate mongoTemplate = new MongoTemplate(factory);
 
         final MappingContext<? extends MongoPersistentEntity<?>, MongoPersistentProperty> mappingContext = mongoTemplate

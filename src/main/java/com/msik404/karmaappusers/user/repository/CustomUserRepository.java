@@ -11,9 +11,9 @@ import org.springframework.lang.NonNull;
 public interface CustomUserRepository {
 
     @NonNull
-    UpdateResult updateUser(@NonNull UserUpdateDto userUpdateDto);
+    UpdateResult updateUser(@NonNull final UserUpdateDto userUpdateDto);
 
     @NonNull
-    List<Optional<String>> findUsernames(@NonNull List<ObjectId> userIds);
+    List<Optional<String>> findUsernames(@NonNull final List<ObjectId> userIds);
 
 }

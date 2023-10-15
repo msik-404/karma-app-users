@@ -22,7 +22,7 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public void save(@NonNull UserDocument userDocument)
+    public void save(@NonNull final UserDocument userDocument)
             throws DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         try {
@@ -32,7 +32,7 @@ public class UserService {
         }
     }
 
-    public void update(@NonNull UserUpdateDto userUpdateDto)
+    public void update(@NonNull final UserUpdateDto userUpdateDto)
             throws UserDocumentNotFoundException, DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         try {
@@ -47,13 +47,13 @@ public class UserService {
 
     @NonNull
     public IdAndHashedPasswordAndRoleOnlyDto findCredentials(
-            @NonNull String email) throws UserDocumentNotFoundException {
+            @NonNull final String email) throws UserDocumentNotFoundException {
 
         return repository.findByEmail(email).orElseThrow(UserDocumentNotFoundException::new);
     }
 
     @NonNull
-    public Role findRole(@NonNull ObjectId userId) throws UserDocumentNotFoundException {
+    public Role findRole(@NonNull final ObjectId userId) throws UserDocumentNotFoundException {
 
         final Optional<RoleOnlyDto> optionalRoleDto = repository.findRoleByUserId(userId);
         if (optionalRoleDto.isEmpty()) {
@@ -63,7 +63,7 @@ public class UserService {
     }
 
     @NonNull
-    public String findUsername(@NonNull ObjectId userId) throws UserDocumentNotFoundException {
+    public String findUsername(@NonNull final ObjectId userId) throws UserDocumentNotFoundException {
 
         final Optional<UsernameOnlyDto> optionalUsernameDto = repository.findUsernameByUserId(userId);
         if (optionalUsernameDto.isEmpty()) {
@@ -73,7 +73,7 @@ public class UserService {
     }
 
     @NonNull
-    public List<String> findUsernames(@NonNull List<ObjectId> userIds) {
+    public List<String> findUsernames(@NonNull final List<ObjectId> userIds) {
 
         final List<Optional<String>> optionalUsernames = repository.findUsernames(userIds);
 
@@ -81,7 +81,7 @@ public class UserService {
     }
 
     @NonNull
-    public ObjectId findUserId(@NonNull String username) throws UserDocumentNotFoundException {
+    public ObjectId findUserId(@NonNull final String username) throws UserDocumentNotFoundException {
 
         final Optional<IdOnlyDto> optionalIdDto = repository.findUserIdByUsername(username);
         if (optionalIdDto.isEmpty()) {

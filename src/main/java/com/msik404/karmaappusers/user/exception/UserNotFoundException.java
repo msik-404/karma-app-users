@@ -7,18 +7,18 @@ import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.springframework.lang.NonNull;
 
-public class UserDocumentNotFoundException extends RuntimeException implements EncodableException, GrpcStatusException {
+public class UserNotFoundException extends RuntimeException implements EncodableException, GrpcStatusException {
 
     private static final String ERROR_MESSAGE = "Requested UserDocument was not found.";
 
-    public UserDocumentNotFoundException() {
+    public UserNotFoundException() {
         super(ERROR_MESSAGE);
     }
 
     @NonNull
     @Override
     public String getEncodedException() {
-        return ExceptionEncoder.encode(UserDocumentNotFoundException.class.getSimpleName(), ERROR_MESSAGE);
+        return ExceptionEncoder.encode(UserNotFoundException.class.getSimpleName(), ERROR_MESSAGE);
     }
 
     @NonNull

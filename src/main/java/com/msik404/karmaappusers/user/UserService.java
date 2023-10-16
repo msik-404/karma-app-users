@@ -8,7 +8,7 @@ import com.msik404.karmaappusers.user.dto.*;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
-import com.msik404.karmaappusers.user.exception.UserDocumentNotFoundException;
+import com.msik404.karmaappusers.user.exception.UserNotFoundException;
 import com.msik404.karmaappusers.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -33,12 +33,12 @@ public class UserService {
     }
 
     public void update(@NonNull final UserUpdateDto userUpdateDto)
-            throws UserDocumentNotFoundException, DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
+            throws UserNotFoundException, DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         try {
             final UpdateResult result = repository.updateUser(userUpdateDto);
             if (result.getMatchedCount() == 0) {
-                throw new UserDocumentNotFoundException();
+                throw new UserNotFoundException();
             }
         } catch (DuplicateKeyException ex) {
             DuplicateKeyExceptionHandler.handle(ex);
@@ -47,27 +47,27 @@ public class UserService {
 
     @NonNull
     public IdAndHashedPasswordAndRoleOnlyDto findCredentials(
-            @NonNull final String email) throws UserDocumentNotFoundException {
+            @NonNull final String email) throws UserNotFoundException {
 
-        return repository.findByEmail(email).orElseThrow(UserDocumentNotFoundException::new);
+        return repository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     @NonNull
-    public Role findRole(@NonNull final ObjectId userId) throws UserDocumentNotFoundException {
+    public Role findRole(@NonNull final ObjectId userId) throws UserNotFoundException {
 
         final Optional<RoleOnlyDto> optionalRoleDto = repository.findRoleByUserId(userId);
         if (optionalRoleDto.isEmpty()) {
-            throw new UserDocumentNotFoundException();
+            throw new UserNotFoundException();
         }
         return optionalRoleDto.get().role();
     }
 
     @NonNull
-    public String findUsername(@NonNull final ObjectId userId) throws UserDocumentNotFoundException {
+    public String findUsername(@NonNull final ObjectId userId) throws UserNotFoundException {
 
         final Optional<UsernameOnlyDto> optionalUsernameDto = repository.findUsernameByUserId(userId);
         if (optionalUsernameDto.isEmpty()) {
-            throw new UserDocumentNotFoundException();
+            throw new UserNotFoundException();
         }
         return optionalUsernameDto.get().username();
     }
@@ -81,11 +81,11 @@ public class UserService {
     }
 
     @NonNull
-    public ObjectId findUserId(@NonNull final String username) throws UserDocumentNotFoundException {
+    public ObjectId findUserId(@NonNull final String username) throws UserNotFoundException {
 
         final Optional<IdOnlyDto> optionalIdDto = repository.findUserIdByUsername(username);
         if (optionalIdDto.isEmpty()) {
-            throw new UserDocumentNotFoundException();
+            throw new UserNotFoundException();
         }
         return optionalIdDto.get().id();
     }

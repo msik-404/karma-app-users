@@ -19,7 +19,7 @@ import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUnexpectedFieldException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
-import com.msik404.karmaappusers.user.exception.UserDocumentNotFoundException;
+import com.msik404.karmaappusers.user.exception.UserNotFoundException;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -129,7 +129,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (UserDocumentNotFoundException | UnsupportedRoleException ex) {
+        } catch (UserNotFoundException | UnsupportedRoleException ex) {
             responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
@@ -154,7 +154,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (UserDocumentNotFoundException ex) {
+        } catch (UserNotFoundException ex) {
             responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
@@ -172,7 +172,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (UserDocumentNotFoundException ex) {
+        } catch (UserNotFoundException ex) {
             responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
@@ -218,7 +218,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (UserDocumentNotFoundException ex) {
+        } catch (UserNotFoundException ex) {
             responseObserver.onError(ex.asStatusRuntimeException());
         }
     }

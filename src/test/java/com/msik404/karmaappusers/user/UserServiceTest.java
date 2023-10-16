@@ -7,7 +7,7 @@ import com.msik404.karmaappusers.TestingDataGenerator;
 import com.msik404.karmaappusers.user.dto.UserUpdateDto;
 import com.msik404.karmaappusers.user.exception.DuplicateEmailException;
 import com.msik404.karmaappusers.user.exception.DuplicateUsernameException;
-import com.msik404.karmaappusers.user.exception.UserDocumentNotFoundException;
+import com.msik404.karmaappusers.user.exception.UserNotFoundException;
 import com.msik404.karmaappusers.user.repository.CustomUserRepository;
 import com.msik404.karmaappusers.user.repository.CustomUserRepositoryImpl;
 import com.msik404.karmaappusers.user.repository.UserRepository;
@@ -168,7 +168,7 @@ class UserServiceTest {
         );
 
         // then                                                 when
-        assertThrows(UserDocumentNotFoundException.class, () -> service.update(updateDto));
+        assertThrows(UserNotFoundException.class, () -> service.update(updateDto));
     }
 
     @Test

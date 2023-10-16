@@ -80,10 +80,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
         } catch (UnsupportedRoleException | DuplicateUsernameException | DuplicateEmailException |
                  DuplicateUnexpectedFieldException ex) {
-            responseObserver.onError(Status.INVALID_ARGUMENT
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
+            responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
 
@@ -106,10 +103,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
         } catch (UnsupportedRoleException | DuplicateUsernameException | DuplicateEmailException |
                  DuplicateUnexpectedFieldException ex) {
-            responseObserver.onError(Status.INVALID_ARGUMENT
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
+            responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
 
@@ -135,19 +129,9 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-        } catch (UserDocumentNotFoundException ex) {
-            responseObserver.onError(Status.NOT_FOUND
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
-        } catch (UnsupportedRoleException ex) {
-            responseObserver.onError(Status.INVALID_ARGUMENT
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
+        } catch (UserDocumentNotFoundException | UnsupportedRoleException ex) {
+            responseObserver.onError(ex.asStatusRuntimeException());
         }
-
-        super.findCredentials(request, responseObserver);
     }
 
     @Override
@@ -171,13 +155,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onCompleted();
 
         } catch (UserDocumentNotFoundException ex) {
-            responseObserver.onError(Status.NOT_FOUND
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
+            responseObserver.onError(ex.asStatusRuntimeException());
         }
-
-        super.findUserRole(request, responseObserver);
     }
 
     @Override
@@ -194,10 +173,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onCompleted();
 
         } catch (UserDocumentNotFoundException ex) {
-            responseObserver.onError(Status.NOT_FOUND
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
+            responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
 
@@ -243,10 +219,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onCompleted();
 
         } catch (UserDocumentNotFoundException ex) {
-            responseObserver.onError(Status.NOT_FOUND
-                    .withDescription(ex.getMessage())
-                    .asRuntimeException()
-            );
+            responseObserver.onError(ex.asStatusRuntimeException());
         }
     }
 

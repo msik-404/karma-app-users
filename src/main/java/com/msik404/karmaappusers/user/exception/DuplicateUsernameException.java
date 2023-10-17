@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 
 public class DuplicateUsernameException extends RuntimeException implements EncodableException, GrpcStatusException {
 
+    private static final String Id = "DuplicateUsername";
     private static final String ERROR_MESSAGE = "Document with provided username exists.";
 
     public DuplicateUsernameException() {
@@ -18,7 +19,13 @@ public class DuplicateUsernameException extends RuntimeException implements Enco
     @NonNull
     @Override
     public String getEncodedException() {
-        return ExceptionEncoder.encode(DuplicateUsernameException.class.getSimpleName(), ERROR_MESSAGE);
+        return ExceptionEncoder.encode(getExceptionId(), ERROR_MESSAGE);
+    }
+
+    @NonNull
+    @Override
+    public String getExceptionId() {
+        return Id;
     }
 
     @NonNull

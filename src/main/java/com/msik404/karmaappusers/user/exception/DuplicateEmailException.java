@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 
 public class DuplicateEmailException extends RuntimeException implements EncodableException, GrpcStatusException {
 
+    private static final String Id = "DuplicateEmail";
     private static final String ERROR_MESSAGE = "Document with provided email exists.";
 
     public DuplicateEmailException() {
@@ -18,7 +19,13 @@ public class DuplicateEmailException extends RuntimeException implements Encodab
     @NonNull
     @Override
     public String getEncodedException() {
-        return ExceptionEncoder.encode(DuplicateEmailException.class.getSimpleName(), ERROR_MESSAGE);
+        return ExceptionEncoder.encode(getExceptionId(), ERROR_MESSAGE);
+    }
+
+    @NonNull
+    @Override
+    public String getExceptionId() {
+        return Id;
     }
 
     @NonNull

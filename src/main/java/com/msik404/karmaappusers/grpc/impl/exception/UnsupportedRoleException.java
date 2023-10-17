@@ -8,6 +8,7 @@ import org.springframework.lang.NonNull;
 
 public class UnsupportedRoleException extends RuntimeException implements EncodableException, GrpcStatusException {
 
+    private static final String Id = "UnsupportedRole";
     private static final String ERROR_MESSAGE = "Unsupported role provided.";
 
     public UnsupportedRoleException() {
@@ -17,7 +18,13 @@ public class UnsupportedRoleException extends RuntimeException implements Encoda
     @NonNull
     @Override
     public String getEncodedException() {
-        return ExceptionEncoder.encode(UnsupportedRoleException.class.getSimpleName(), ERROR_MESSAGE);
+        return ExceptionEncoder.encode(getExceptionId(), ERROR_MESSAGE);
+    }
+
+    @NonNull
+    @Override
+    public String getExceptionId() {
+        return Id;
     }
 
     @NonNull

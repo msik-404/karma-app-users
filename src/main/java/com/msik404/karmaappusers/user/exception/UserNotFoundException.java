@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 
 public class UserNotFoundException extends RuntimeException implements EncodableException, GrpcStatusException {
 
+    private static final String Id = "UserNotFound";
     private static final String ERROR_MESSAGE = "Requested UserDocument was not found.";
 
     public UserNotFoundException() {
@@ -18,7 +19,13 @@ public class UserNotFoundException extends RuntimeException implements Encodable
     @NonNull
     @Override
     public String getEncodedException() {
-        return ExceptionEncoder.encode(UserNotFoundException.class.getSimpleName(), ERROR_MESSAGE);
+        return ExceptionEncoder.encode(getExceptionId(), ERROR_MESSAGE);
+    }
+
+    @NonNull
+    @Override
+    public String getExceptionId() {
+        return Id;
     }
 
     @NonNull

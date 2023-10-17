@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 
 public class DuplicateUnexpectedFieldException extends RuntimeException implements EncodableException, GrpcStatusException {
 
+    private static final String Id = "DuplicateUnexpectedField";
     private static final String ERROR_MESSAGE = "Document with provided field value exists. Specific field is unknown.";
 
     public DuplicateUnexpectedFieldException() {
@@ -18,7 +19,13 @@ public class DuplicateUnexpectedFieldException extends RuntimeException implemen
     @NonNull
     @Override
     public String getEncodedException() {
-        return ExceptionEncoder.encode(DuplicateUnexpectedFieldException.class.getSimpleName(), ERROR_MESSAGE);
+        return ExceptionEncoder.encode(getExceptionId(), ERROR_MESSAGE);
+    }
+
+    @NonNull
+    @Override
+    public String getExceptionId() {
+        return Id;
     }
 
     @NonNull

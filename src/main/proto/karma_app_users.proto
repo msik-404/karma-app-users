@@ -77,9 +77,11 @@ message UsernameResponse {
   optional string username = 1 [(buf.validate.field).required = true];
 }
 
+// Here I cannot use MongoObjectId, because unique constraint does not work for custom messages.
 message UsernamesRequest {
-  repeated MongoObjectId userIds = 1 [
+  repeated string userIdHexStrings = 1 [
     (buf.validate.field).repeated.min_items = 1,
+    (buf.validate.field).repeated.items.string.len = 24,
     (buf.validate.field).repeated.unique = true,
     (buf.validate.field).required = true
   ];

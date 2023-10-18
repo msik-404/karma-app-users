@@ -187,8 +187,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             return;
         }
 
-        final List<ObjectId> userIds = request.getUserIdsList().stream()
-                .map(grpcId -> new ObjectId(grpcId.getHexString()))
+        final List<ObjectId> userIds = request.getUserIdHexStringsList().stream()
+                .map(ObjectId::new)
                 .toList();
 
         final List<String> usernames = service.findUsernames(userIds);

@@ -44,7 +44,7 @@ class UserServiceTest {
             .withExposedPorts(27017);
 
     @DynamicPropertySource
-    private static void registerRedisProperties(@NonNull DynamicPropertyRegistry registry) {
+    private static void registerRedisProperties(DynamicPropertyRegistry registry) {
 
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
         registry.add("spring.data.mongodb.database", () -> "test");

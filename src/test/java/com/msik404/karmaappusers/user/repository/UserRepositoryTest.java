@@ -68,12 +68,12 @@ class UserRepositoryTest {
     void findUsernames_allIdsAreValid_allUsernamesAreFound() {
 
         // given
-        final List<ObjectId> ids = TestingDataGenerator.TEST_USER_DOCS.stream().map(UserDocument::getId).toList();
-        final List<Optional<String>> groundTruth = TestingDataGenerator.TEST_USER_DOCS.stream()
+        List<ObjectId> ids = TestingDataGenerator.TEST_USER_DOCS.stream().map(UserDocument::getId).toList();
+        List<Optional<String>> groundTruth = TestingDataGenerator.TEST_USER_DOCS.stream()
                 .map(doc -> Optional.of(doc.getUsername())).toList();
 
         // when
-        final List<Optional<String>> usernames = repository.findUsernames(ids);
+        List<Optional<String>> usernames = repository.findUsernames(ids);
 
         // then
         assertEquals(groundTruth.size(), usernames.size());
@@ -86,17 +86,17 @@ class UserRepositoryTest {
     void findUsernames_OneIdIsInvalid_AllValidUsernamesAreFoundAndNullIsInProperPlaceInResult() {
 
         // given
-        final List<ObjectId> ids = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
+        List<ObjectId> ids = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
                 .map(UserDocument::getId).toList());
 
-        final List<Optional<String>> groundTruth = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
+        List<Optional<String>> groundTruth = new java.util.ArrayList<>(TestingDataGenerator.TEST_USER_DOCS.stream()
                 .map(doc -> Optional.of(doc.getUsername())).toList());
 
         ids.add(3, ObjectId.get());
         groundTruth.add(3, Optional.empty());
 
         // when
-        final List<Optional<String>> usernames = repository.findUsernames(ids);
+        List<Optional<String>> usernames = repository.findUsernames(ids);
 
         // then
         assertEquals(groundTruth.size(), usernames.size());

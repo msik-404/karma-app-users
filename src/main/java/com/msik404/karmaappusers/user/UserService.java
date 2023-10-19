@@ -22,7 +22,7 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public void save(@NonNull final UserDocument userDocument)
+    public void save(@NonNull UserDocument userDocument)
             throws DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         try {
@@ -32,11 +32,11 @@ public class UserService {
         }
     }
 
-    public void update(@NonNull final UserUpdateDto userUpdateDto)
+    public void update(@NonNull UserUpdateDto userUpdateDto)
             throws UserNotFoundException, DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
         try {
-            final UpdateResult result = repository.updateUser(userUpdateDto);
+            UpdateResult result = repository.updateUser(userUpdateDto);
             if (result.getMatchedCount() == 0) {
                 throw new UserNotFoundException();
             }
@@ -47,15 +47,15 @@ public class UserService {
 
     @NonNull
     public IdAndHashedPasswordAndRoleOnlyDto findCredentials(
-            @NonNull final String email) throws UserNotFoundException {
+            @NonNull String email) throws UserNotFoundException {
 
         return repository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     @NonNull
-    public Role findRole(@NonNull final ObjectId userId) throws UserNotFoundException {
+    public Role findRole(@NonNull ObjectId userId) throws UserNotFoundException {
 
-        final Optional<RoleOnlyDto> optionalRoleDto = repository.findRoleByUserId(userId);
+        Optional<RoleOnlyDto> optionalRoleDto = repository.findRoleByUserId(userId);
         if (optionalRoleDto.isEmpty()) {
             throw new UserNotFoundException();
         }
@@ -63,9 +63,9 @@ public class UserService {
     }
 
     @NonNull
-    public String findUsername(@NonNull final ObjectId userId) throws UserNotFoundException {
+    public String findUsername(@NonNull ObjectId userId) throws UserNotFoundException {
 
-        final Optional<UsernameOnlyDto> optionalUsernameDto = repository.findUsernameByUserId(userId);
+        Optional<UsernameOnlyDto> optionalUsernameDto = repository.findUsernameByUserId(userId);
         if (optionalUsernameDto.isEmpty()) {
             throw new UserNotFoundException();
         }
@@ -73,17 +73,17 @@ public class UserService {
     }
 
     @NonNull
-    public List<String> findUsernames(@NonNull final List<ObjectId> userIds) {
+    public List<String> findUsernames(@NonNull List<ObjectId> userIds) {
 
-        final List<Optional<String>> optionalUsernames = repository.findUsernames(userIds);
+        List<Optional<String>> optionalUsernames = repository.findUsernames(userIds);
 
         return optionalUsernames.stream().map(optional -> optional.orElse("")).toList();
     }
 
     @NonNull
-    public ObjectId findUserId(@NonNull final String username) throws UserNotFoundException {
+    public ObjectId findUserId(@NonNull String username) throws UserNotFoundException {
 
-        final Optional<IdOnlyDto> optionalIdDto = repository.findUserIdByUsername(username);
+        Optional<IdOnlyDto> optionalIdDto = repository.findUserIdByUsername(username);
         if (optionalIdDto.isEmpty()) {
             throw new UserNotFoundException();
         }

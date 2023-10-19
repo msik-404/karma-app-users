@@ -21,9 +21,9 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     @NonNull
     @Override
-    public UpdateResult updateUser(@NonNull final UserUpdateDto userUpdateDto) {
+    public UpdateResult updateUser(@NonNull UserUpdateDto userUpdateDto) {
 
-        final var update = new Update();
+        var update = new Update();
         if (userUpdateDto.firstName() != null) {
             update.set("firstName", userUpdateDto.firstName());
         }
@@ -43,25 +43,25 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             update.set("role", userUpdateDto.role());
         }
 
-        final var query = new Query(Criteria.where("id").is(userUpdateDto.userId()));
+        var query = new Query(Criteria.where("id").is(userUpdateDto.userId()));
         return ops.updateFirst(query, update, UserDocument.class);
     }
 
     @NonNull
     @Override
-    public List<Optional<String>> findUsernames(@NonNull final List<ObjectId> userIds) {
+    public List<Optional<String>> findUsernames(@NonNull List<ObjectId> userIds) {
 
         assert !userIds.isEmpty();
 
-        final Map<ObjectId, Integer> userIdToIdx = new HashMap<>(userIds.size());
+        Map<ObjectId, Integer> userIdToIdx = new HashMap<>(userIds.size());
         for (int i = 0; i < userIds.size(); i++) {
             userIdToIdx.put(userIds.get(i), i);
         }
 
-        final var query = new Query(Criteria.where("_id").in(userIds));
+        var query = new Query(Criteria.where("_id").in(userIds));
         query.fields().include("_id", "username");
 
-        final List<IdAndUsernameOnlyDto> queryResults = ops.find(
+        List<IdAndUsernameOnlyDto> queryResults = ops.find(
                 query,
                 IdAndUsernameOnlyDto.class,
                 ops.getCollectionName(UserDocument.class)

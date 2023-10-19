@@ -11,16 +11,16 @@ import org.springframework.lang.NonNull;
 
 public class DuplicateKeyExceptionHandler {
 
-    public static void handle(@NonNull final DuplicateKeyException ex)
+    public static void handle(@NonNull DuplicateKeyException ex)
             throws DuplicateUsernameException, DuplicateEmailException, DuplicateUnexpectedFieldException {
 
-        final String errorMessage = ex.getMostSpecificCause().getMessage();
+        String errorMessage = ex.getMostSpecificCause().getMessage();
 
-        final Pattern pattern = Pattern.compile("index: (.*) dup");
-        final Matcher matcher = pattern.matcher(errorMessage);
+        Pattern pattern = Pattern.compile("index: (.*) dup");
+        Matcher matcher = pattern.matcher(errorMessage);
 
         if (matcher.find()) {
-            final String field = matcher.group(1);
+            String field = matcher.group(1);
             if (field.equals("username")) {
                 throw new DuplicateUsernameException();
             } else if (field.equals("email")) {

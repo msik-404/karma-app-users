@@ -26,12 +26,12 @@ public class UserDocument {
     private Role role;
 
     public UserDocument(
-            @Nullable final String firstName,
-            @Nullable final String lastName,
-            @NonNull final String username,
-            @NonNull final String email,
-            @NonNull final String password,
-            @NonNull final Role role) {
+            @Nullable String firstName,
+            @Nullable String lastName,
+            @NonNull String username,
+            @NonNull String email,
+            @NonNull String password,
+            @NonNull Role role) {
 
         this.id = ObjectId.get();
         this.firstName = firstName;

@@ -22,8 +22,8 @@ public class TestingDataGenerator {
     @NonNull
     public static UserDocument getTestUserDoc(int id, @NonNull Role role) {
 
-        final String username = getUsername(id);
-        final String email = getEmail(id);
+        String username = getUsername(id);
+        String email = getEmail(id);
 
         return new UserDocument(null, null, username, email, username, role);
     }
@@ -31,7 +31,7 @@ public class TestingDataGenerator {
     @NonNull
     private static List<UserDocument> getTestUserDocs() {
 
-        final int userAmount = 6;
+        int userAmount = 6;
 
         List<UserDocument> users = new ArrayList<>(userAmount);
 
@@ -52,9 +52,9 @@ public class TestingDataGenerator {
 
         assert idx < TEST_USER_DOCS.size();
 
-        final UserDocument doc = TEST_USER_DOCS.get(idx);
+        UserDocument doc = TEST_USER_DOCS.get(idx);
 
-        final UserDocument copiedDoc = new UserDocument(
+        UserDocument copiedDoc = new UserDocument(
                 doc.getFirstName(),
                 doc.getLastName(),
                 doc.getUsername(),

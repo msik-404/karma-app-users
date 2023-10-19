@@ -32,18 +32,18 @@ public class MongoConfiguration {
     }
 
     @Bean
-    public MongoDatabaseFactory mongoDatabaseFactory(@NonNull final MongoClient client) {
+    public MongoDatabaseFactory mongoDatabaseFactory(@NonNull MongoClient client) {
         return new SimpleMongoClientDatabaseFactory(client, databaseName);
     }
 
     @Bean
-    public MongoTemplate mongoTemplate(@NonNull final MongoDatabaseFactory factory) {
-        final MongoTemplate mongoTemplate = new MongoTemplate(factory);
+    public MongoTemplate mongoTemplate(@NonNull MongoDatabaseFactory factory) {
+        MongoTemplate mongoTemplate = new MongoTemplate(factory);
 
-        final MappingContext<? extends MongoPersistentEntity<?>, MongoPersistentProperty> mappingContext = mongoTemplate
+        MappingContext<? extends MongoPersistentEntity<?>, MongoPersistentProperty> mappingContext = mongoTemplate
                 .getConverter().getMappingContext();
 
-        final IndexResolver resolver = new MongoPersistentEntityIndexResolver(mappingContext);
+        IndexResolver resolver = new MongoPersistentEntityIndexResolver(mappingContext);
 
         IndexOperations indexOps = mongoTemplate.indexOps(UserDocument.class);
         resolver.resolveIndexFor(UserDocument.class).forEach(indexOps::ensureIndex);

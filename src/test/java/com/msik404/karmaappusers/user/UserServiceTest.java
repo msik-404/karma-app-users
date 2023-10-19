@@ -74,14 +74,14 @@ class UserServiceTest {
     void save_UniqueUsernameAndEmail_NoExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
+        int uniqueId = 777;
+        UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
 
         // then                  when
         assertDoesNotThrow(() -> service.save(doc));
 
         // then
-        final Optional<UserDocument> optionalDoc = repository.findById(doc.getId());
+        Optional<UserDocument> optionalDoc = repository.findById(doc.getId());
         assertTrue(optionalDoc.isPresent());
         assertEquals(doc, optionalDoc.get());
     }
@@ -90,8 +90,8 @@ class UserServiceTest {
     void save_NotUniqueUsername_DuplicateUsernameExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
+        int uniqueId = 777;
+        UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
         doc.setUsername(TestingDataGenerator.TEST_USER_DOCS.get(0).getUsername());
 
         // then                                              when
@@ -102,8 +102,8 @@ class UserServiceTest {
     void save_NotUniqueEmail_DuplicateEmailExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
+        int uniqueId = 777;
+        UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
         doc.setEmail(TestingDataGenerator.TEST_USER_DOCS.get(0).getEmail());
 
         // then                                           when
@@ -114,8 +114,8 @@ class UserServiceTest {
     void save_NotUniqueUsernameAndEmail_DuplicateUsernameExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
+        int uniqueId = 777;
+        UserDocument doc = TestingDataGenerator.getTestUserDoc(uniqueId, Role.USER);
         doc.setUsername(TestingDataGenerator.TEST_USER_DOCS.get(0).getUsername());
         doc.setEmail(TestingDataGenerator.TEST_USER_DOCS.get(0).getEmail());
 
@@ -127,14 +127,14 @@ class UserServiceTest {
     void update_DocumentExistsAndUniqueUsernameAndEmail_NoExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument groundTruthDoc = TestingDataGenerator.copy(0);
-        final String newUsername = TestingDataGenerator.getUsername(uniqueId);
-        final String newEmail = TestingDataGenerator.getEmail(uniqueId);
+        int uniqueId = 777;
+        UserDocument groundTruthDoc = TestingDataGenerator.copy(0);
+        String newUsername = TestingDataGenerator.getUsername(uniqueId);
+        String newEmail = TestingDataGenerator.getEmail(uniqueId);
         groundTruthDoc.setUsername(newUsername);
         groundTruthDoc.setEmail(newEmail);
 
-        final var updateDto = new UserUpdateDto(
+        var updateDto = new UserUpdateDto(
                 groundTruthDoc.getId(),
                 null,
                 null,
@@ -148,7 +148,7 @@ class UserServiceTest {
         assertDoesNotThrow(() -> service.update(updateDto));
 
         // then
-        final Optional<UserDocument> optionalDoc = repository.findById(groundTruthDoc.getId());
+        Optional<UserDocument> optionalDoc = repository.findById(groundTruthDoc.getId());
         assertTrue(optionalDoc.isPresent());
         assertEquals(groundTruthDoc, optionalDoc.get());
     }
@@ -157,7 +157,7 @@ class UserServiceTest {
     void update_DocumentDoesNotExist_UserDocumentNotFoundExceptionThrown() {
 
         // given
-        final var updateDto = new UserUpdateDto(
+        var updateDto = new UserUpdateDto(
                 ObjectId.get(),
                 null,
                 null,
@@ -175,12 +175,12 @@ class UserServiceTest {
     void update_DocumentExistsAndNotUniqueUsername_DuplicateUsernameExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument groundTruthDoc = TestingDataGenerator.copy(0);
-        final String newEmail = TestingDataGenerator.getEmail(uniqueId);
+        int uniqueId = 777;
+        UserDocument groundTruthDoc = TestingDataGenerator.copy(0);
+        String newEmail = TestingDataGenerator.getEmail(uniqueId);
         groundTruthDoc.setEmail(newEmail);
 
-        final var updateDto = new UserUpdateDto(
+        var updateDto = new UserUpdateDto(
                 groundTruthDoc.getId(),
                 null,
                 null,
@@ -198,12 +198,12 @@ class UserServiceTest {
     void update_DocumentExistsAndNotUniqueEmail_DuplicateEmailExceptionThrown() {
 
         // given
-        final int uniqueId = 777;
-        final UserDocument groundTruthDoc = TestingDataGenerator.TEST_USER_DOCS.get(0);
-        final String newUsername = TestingDataGenerator.getUsername(uniqueId);
+        int uniqueId = 777;
+        UserDocument groundTruthDoc = TestingDataGenerator.TEST_USER_DOCS.get(0);
+        String newUsername = TestingDataGenerator.getUsername(uniqueId);
         groundTruthDoc.setUsername(newUsername);
 
-        final var updateDto = new UserUpdateDto(
+        var updateDto = new UserUpdateDto(
                 groundTruthDoc.getId(),
                 null,
                 null,
@@ -221,7 +221,7 @@ class UserServiceTest {
     void update_DocumentExistsAndNotUniqueUsernameAndEmail_DuplicateUsernameExceptionThrown() {
 
         // given
-        final var updateDto = new UserUpdateDto(
+        var updateDto = new UserUpdateDto(
                 TestingDataGenerator.TEST_USER_DOCS.get(0).getId(),
                 null,
                 null,

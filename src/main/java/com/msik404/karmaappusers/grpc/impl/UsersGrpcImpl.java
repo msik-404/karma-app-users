@@ -34,12 +34,12 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     private final UserService service;
 
     private static <T> boolean validate(
-            @NonNull final Message request,
-            @NonNull final StreamObserver<T> responseObserver) {
+            @NonNull Message request,
+            @NonNull StreamObserver<T> responseObserver) {
 
-        final Validator validator = new Validator();
+        Validator validator = new Validator();
         try {
-            final ValidationResult result = validator.validate(request);
+            ValidationResult result = validator.validate(request);
             // Check if there are any validation violations
             if (!result.isSuccess()) {
                 responseObserver.onError(Status.INVALID_ARGUMENT
@@ -50,7 +50,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             }
         } catch (ValidationException ex) {
             // Catch and print any ValidationExceptions thrown during the validation process
-            final String errMessage = ex.getMessage();
+            String errMessage = ex.getMessage();
             System.out.println("Validation failed: " + errMessage);
             responseObserver.onError(Status.INTERNAL
                     .withDescription(errMessage)
@@ -63,16 +63,16 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void createUser(
-            @NonNull final CreateUserRequest request,
-            @NonNull final StreamObserver<Empty> responseObserver) {
+            @NonNull CreateUserRequest request,
+            @NonNull StreamObserver<Empty> responseObserver) {
 
-        final boolean isSuccess = validate(request, responseObserver);
+        boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
             return;
         }
 
         try {
-            final UserDocument doc = GrpcToDocMapper.map(request);
+            UserDocument doc = GrpcToDocMapper.map(request);
             service.save(doc);
 
             responseObserver.onNext(Empty.getDefaultInstance());
@@ -86,16 +86,16 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void updateUser(
-            @NonNull final UpdateUserRequest request,
-            @NonNull final StreamObserver<Empty> responseObserver) {
+            @NonNull UpdateUserRequest request,
+            @NonNull StreamObserver<Empty> responseObserver) {
 
-        final boolean isSuccess = validate(request, responseObserver);
+        boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
             return;
         }
 
         try {
-            final UserUpdateDto dto = GrpcToDocMapper.map(request);
+            UserUpdateDto dto = GrpcToDocMapper.map(request);
             service.update(dto);
 
             responseObserver.onNext(Empty.getDefaultInstance());
@@ -109,18 +109,18 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findCredentials(
-            @NonNull final CredentialsRequest request,
-            @NonNull final StreamObserver<CredentialsResponse> responseObserver) {
+            @NonNull CredentialsRequest request,
+            @NonNull StreamObserver<CredentialsResponse> responseObserver) {
 
-        final boolean isSuccess = validate(request, responseObserver);
+        boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
             return;
         }
 
         try {
-            final IdAndHashedPasswordAndRoleOnlyDto credentials = service.findCredentials(request.getEmail());
+            IdAndHashedPasswordAndRoleOnlyDto credentials = service.findCredentials(request.getEmail());
 
-            final var response = CredentialsResponse.newBuilder()
+            var response = CredentialsResponse.newBuilder()
                     .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toHexString()).build())
                     .setPassword(credentials.password())
                     .setRole(RoleMapper.map(credentials.role()))
@@ -136,18 +136,18 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserRole(
-            @NonNull final UserRoleRequest request,
-            @NonNull final StreamObserver<UserRoleResponse> responseObserver) {
+            @NonNull UserRoleRequest request,
+            @NonNull StreamObserver<UserRoleResponse> responseObserver) {
 
-        final boolean isSuccess = validate(request, responseObserver);
+        boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
             return;
         }
 
         try {
-            final Role role = service.findRole(new ObjectId(request.getUserId().getHexString()));
+            Role role = service.findRole(new ObjectId(request.getUserId().getHexString()));
 
-            final var response = UserRoleResponse.newBuilder()
+            var response = UserRoleResponse.newBuilder()
                     .setRole(RoleMapper.map(role))
                     .build();
 
@@ -161,13 +161,13 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsername(
-            @NonNull final UsernameRequest request,
-            @NonNull final StreamObserver<UsernameResponse> responseObserver) {
+            @NonNull UsernameRequest request,
+            @NonNull StreamObserver<UsernameResponse> responseObserver) {
 
         try {
-            final String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
+            String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
 
-            final var response = UsernameResponse.newBuilder().setUsername(username).build();
+            var response = UsernameResponse.newBuilder().setUsername(username).build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();
@@ -179,21 +179,21 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsernames(
-            @NonNull final UsernamesRequest request,
-            @NonNull final StreamObserver<UsernamesResponse> responseObserver) {
+            @NonNull UsernamesRequest request,
+            @NonNull StreamObserver<UsernamesResponse> responseObserver) {
 
-        final boolean isSuccess = validate(request, responseObserver);
+        boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
             return;
         }
 
-        final List<ObjectId> userIds = request.getUserIdHexStringsList().stream()
+        List<ObjectId> userIds = request.getUserIdHexStringsList().stream()
                 .map(ObjectId::new)
                 .toList();
 
-        final List<String> usernames = service.findUsernames(userIds);
+        List<String> usernames = service.findUsernames(userIds);
 
-        final var response = UsernamesResponse.newBuilder()
+        var response = UsernamesResponse.newBuilder()
                 .addAllUsernames(usernames).build();
 
         responseObserver.onNext(response);
@@ -202,18 +202,18 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserId(
-            @NonNull final UserIdRequest request,
-            @NonNull final StreamObserver<MongoObjectId> responseObserver) {
+            @NonNull UserIdRequest request,
+            @NonNull StreamObserver<MongoObjectId> responseObserver) {
 
-        final boolean isSuccess = validate(request, responseObserver);
+        boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
             return;
         }
 
         try {
-            final ObjectId userId = service.findUserId(request.getUsername());
+            ObjectId userId = service.findUserId(request.getUsername());
 
-            final var response = MongoObjectId.newBuilder().setHexString(userId.toHexString()).build();
+            var response = MongoObjectId.newBuilder().setHexString(userId.toHexString()).build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();

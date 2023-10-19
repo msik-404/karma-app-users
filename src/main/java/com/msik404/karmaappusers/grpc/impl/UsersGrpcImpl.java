@@ -63,8 +63,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void createUser(
-            @NonNull CreateUserRequest request,
-            @NonNull StreamObserver<Empty> responseObserver) {
+            CreateUserRequest request,
+            StreamObserver<Empty> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -86,8 +86,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void updateUser(
-            @NonNull UpdateUserRequest request,
-            @NonNull StreamObserver<Empty> responseObserver) {
+            UpdateUserRequest request,
+            StreamObserver<Empty> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -109,8 +109,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findCredentials(
-            @NonNull CredentialsRequest request,
-            @NonNull StreamObserver<CredentialsResponse> responseObserver) {
+            CredentialsRequest request,
+            StreamObserver<CredentialsResponse> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -136,8 +136,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserRole(
-            @NonNull UserRoleRequest request,
-            @NonNull StreamObserver<UserRoleResponse> responseObserver) {
+            UserRoleRequest request,
+            StreamObserver<UserRoleResponse> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -161,8 +161,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsername(
-            @NonNull UsernameRequest request,
-            @NonNull StreamObserver<UsernameResponse> responseObserver) {
+            UsernameRequest request,
+            StreamObserver<UsernameResponse> responseObserver) {
 
         try {
             String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
@@ -179,8 +179,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsernames(
-            @NonNull UsernamesRequest request,
-            @NonNull StreamObserver<UsernamesResponse> responseObserver) {
+            UsernamesRequest request,
+            StreamObserver<UsernamesResponse> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -202,8 +202,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserId(
-            @NonNull UserIdRequest request,
-            @NonNull StreamObserver<MongoObjectId> responseObserver) {
+            UserIdRequest request,
+            StreamObserver<MongoObjectId> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {

@@ -8,6 +8,7 @@ import build.buf.protovalidate.exceptions.ValidationException;
 import com.google.protobuf.Empty;
 import com.google.protobuf.Message;
 import com.msik404.karmaappusers.grpc.*;
+import com.msik404.karmaappusers.grpc.impl.exception.FailedValidationException;
 import com.msik404.karmaappusers.grpc.impl.exception.UnsupportedRoleException;
 import com.msik404.karmaappusers.grpc.impl.mapper.GrpcToDocMapper;
 import com.msik404.karmaappusers.grpc.impl.mapper.RoleMapper;
@@ -42,10 +43,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             ValidationResult result = validator.validate(request);
             // Check if there are any validation violations
             if (!result.isSuccess()) {
-                responseObserver.onError(Status.INVALID_ARGUMENT
-                        .withDescription(result.toString())
-                        .asRuntimeException()
-                );
+                var exception = new FailedValidationException(result.toString());
+                responseObserver.onError(exception.asStatusRuntimeException());
                 return false;
             }
         } catch (ValidationException ex) {

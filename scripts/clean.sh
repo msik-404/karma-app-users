@@ -12,3 +12,6 @@ docker image rm karma-app-users-backend
 
 # delete volumes
 docker volume rm karma-app-users_db-config && docker volume rm karma-app-users_db-data
+
+# delete network
+docker network rm karma-app-net

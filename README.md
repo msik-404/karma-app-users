@@ -5,6 +5,7 @@ Users microservice for karma-app microservices version. karma-app-users is grpc 
 - Java 21
 - MongoDB
 - Docker
+- GRPC
 - Java spring
 - [spring-boot-starter-data-mongodb](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/)
 - spring-boot-starter-test

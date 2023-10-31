@@ -133,7 +133,7 @@ In this repository one can find [docker-compose-yaml](https://github.com/msik-40
 To start the microservice one should use provided bash scripts but pure docker can also be used.
 
 ### Bash scripts
-Bash scripts can be found under scripts/ folder.
+Bash scripts can be found under [scripts](https://github.com/msik-404/karma-app-users/tree/main/scripts) folder.
 
 Starting microservice: [start.sh](https://github.com/msik-404/karma-app-users/blob/main/scripts/start.sh)
 

@@ -109,7 +109,7 @@ KARMA_APP_USERS_DB_NAME=users-db
 KARMA_APP_USERS_HOST=karma-app-users
 ```
 
-# Bulding the project
+# Building the project
 To get target folder and build the project with maven simply run:
 ```
 ./mvnw clean package -DskipTests

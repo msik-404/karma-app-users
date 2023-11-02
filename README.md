@@ -1,6 +1,10 @@
 # karma-app-users
 Users microservice for karma-app microservices version. karma-app-users is grpc server with access to mongodb database.
 
+Check out other karma-app microservices:
+- [karma-app-gateway](https://github.com/msik-404/karma-app-gateway)
+- [karma-app-posts](https://github.com/msik-404/karma-app-posts)
+
 # Technologies used
 - Java 21
 - MongoDB

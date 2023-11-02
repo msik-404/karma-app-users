@@ -24,7 +24,7 @@ This project significantly simplifies validation of messages and reduces the tim
 Additionally potential user of this microservice can see which fields are required and what
 constraints need to be met to build valid message.
 
-### Using postman
+## Using postman
 To test this microservice in postman one must not only import .proto file in postman service definition but also import
 path to .proto files of protovalidate-java. Usually this path looks something like this:
 some_personal_path/karma-app-users/target/protoc-dependencies/some-long-code. Under some-long-code there should be the
@@ -32,7 +32,7 @@ following files buf/validate/priv/expression.proto and buf/validate/priv/validat
 
 # Features
 
-### Service methods
+## Service methods
 These are all the supported methods.
 
 ```
@@ -52,28 +52,28 @@ service Users {
 ```
 Running from top to bottom:
 
-#### rpc createUser(CreateUserRequest) returns (google.protobuf.Empty) {}
+### rpc createUser(CreateUserRequest) returns (google.protobuf.Empty) {}
 - Create user. Password should be already hashed and salted for example with BCrypt.
 
-#### rpc updateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
+### rpc updateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
 - Update user. Only userId is required, all the other fields are optional. Only provided optional fields will update 
 requested user.
 
-#### rpc findCredentials(CredentialsRequest) returns (CredentialsResponse) {}
+### rpc findCredentials(CredentialsRequest) returns (CredentialsResponse) {}
 - Find userId, hashed and salted password and role by user email.
-#### rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
+### rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
 - Find user role by userId.
-#### rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
+### rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
 - Find user username by userId
-#### rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
+### rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
 - Find N usernames by N userIds. N usernames are returned in the same order as requested N userIds. If usernames was
 not found empty string is returned.
-#### rpc findUserId(UserIdRequest) returns (MongoObjectId) {}
+### rpc findUserId(UserIdRequest) returns (MongoObjectId) {}
 - Find userId by username.
 
 To see message structure look inside [proto file](https://github.com/msik-404/karma-app-users/blob/main/src/main/proto/karma_app_users.proto).
 
-### Exception encoding
+## Exception encoding
 When some exception which is not critical is thrown on the backend side, it is being encoded and passed with appropriate
 grpc code to the caller. Each exception has its unique identifier. With this it can be decoded on the caller side.
 In this setup client side can use the same exception classes as backend.
@@ -132,7 +132,7 @@ In this repository one can find [docker-compose-yaml](https://github.com/msik-40
 
 To start the microservice one should use provided bash scripts but pure docker can also be used.
 
-### Bash scripts
+## Bash scripts
 Bash scripts can be found under [scripts](https://github.com/msik-404/karma-app-users/tree/main/scripts) folder.
 
 Starting microservice: [start.sh](https://github.com/msik-404/karma-app-users/blob/main/scripts/start.sh)
@@ -156,7 +156,7 @@ and then use:
 ./clean.sh
 ```
 
-### Pure docker method
+## Pure docker method
 ```
 docker compose up
 ```

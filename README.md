@@ -9,7 +9,7 @@ Check out other karma-app microservices:
 - Java 21
 - MongoDB
 - Docker
-- GRPC
+- gRPC
 - Java spring
 - [spring-boot-starter-data-mongodb](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/)
 - spring-boot-starter-test
@@ -19,9 +19,10 @@ Check out other karma-app microservices:
 - [protovalidate-java](https://github.com/bufbuild/protovalidate-java)
 - lombok
 
-# Grpc, Protobuf and protovalidate
-Thanks to the use of grpc all available service methods and messages can be
-inspected inside [proto file](https://github.com/msik-404/karma-app-users/blob/main/src/main/proto/karma_app_users.proto).
+# gRPC, Protobuf and protovalidate
+[gRPC](https://grpc.io/) is a modern open source high performance Remote Procedure Call (RPC) framework that can run in 
+any environment. gRPC simplifies microservices API implementation and latter the usage of the API. gRPC is self-documenting,
+all available service methods and message structures can be found inside [proto file](https://github.com/msik-404/karma-app-users/blob/main/src/main/proto/karma_app_users.proto).
 
 In this project to help with message validation I use: [protovalidate-java](https://github.com/bufbuild/protovalidate-java).
 This project significantly simplifies validation of messages and reduces the time required to build stable system.
@@ -79,7 +80,7 @@ To see message structure look inside [proto file](https://github.com/msik-404/ka
 
 ## Exception encoding
 When some exception which is not critical is thrown on the backend side, it is being encoded and passed with appropriate
-grpc code to the caller. Each exception has its unique identifier. With this it can be decoded on the caller side.
+gRPC code to the caller. Each exception has its unique identifier. With this it can be decoded on the caller side.
 In this setup client side can use the same exception classes as backend.
 
 Simple [encoding class](https://github.com/msik-404/karma-app-users/blob/main/src/main/java/com/msik404/karmaappusers/encoding/ExceptionEncoder.java)

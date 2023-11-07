@@ -15,7 +15,7 @@ services:
 
   mongo:
     image: mongo
-    hostname: ${DB_HOST}
+    hostname: ${KARMA_APP_USERS_DB_HOST}
     ports:
       - 27018:27017
     networks:

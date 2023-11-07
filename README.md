@@ -35,48 +35,15 @@ path to .proto files of protovalidate-java. Usually this path looks something li
 some_personal_path/karma-app-users/target/protoc-dependencies/some-long-code. Under some-long-code there should be the
 following files buf/validate/priv/expression.proto and buf/validate/priv/validate.proto.
 
+Additionally, [mongo_object_id.proto](https://github.com/msik-404/karma-app-users/blob/main/src/main/proto/mongo_object_id.proto)
+also needs to be imported in the same manner sa above. Just import path to [proto](https://github.com/msik-404/karma-app-posts/tree/main/src/main/proto)
+folder. This is because mongo_object_id defines messages which are used in many microservices. Duplicating them would
+case code-duplication and smelly code.
+
 # Features
 
-## Service methods
-These are all the supported methods.
-
-```
-service Users {
-
-  rpc createUser(CreateUserRequest) returns (google.protobuf.Empty) {}
-  rpc updateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
-
-  rpc findCredentials(CredentialsRequest) returns (CredentialsResponse) {}
-  rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
-  rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
-  rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
-  rpc findUserId(UserIdRequest) returns (MongoObjectId) {}
-
-}
-
-```
-Running from top to bottom:
-
-### rpc createUser(CreateUserRequest) returns (google.protobuf.Empty) {}
-- Create user. Password should be already hashed and salted for example with BCrypt.
-
-### rpc updateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
-- Update user. Only userId is required, all the other fields are optional. Only provided optional fields will update 
-requested user.
-
-### rpc findCredentials(CredentialsRequest) returns (CredentialsResponse) {}
-- Find userId, hashed and salted password and role by user email.
-### rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
-- Find user role by userId.
-### rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
-- Find user username by userId
-### rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
-- Find N usernames by N userIds. N usernames are returned in the same order as requested N userIds. If usernames was
-not found empty string is returned.
-### rpc findUserId(UserIdRequest) returns (MongoObjectId) {}
-- Find userId by username.
-
-To see message structure look inside [proto file](https://github.com/msik-404/karma-app-users/blob/main/src/main/proto/karma_app_users.proto).
+## gRPC API
+Documentation for the API can be found [here](https://github.com/msik-404/karma-app-users/blob/main/gRPC_API_docs.md)
 
 ## Exception encoding
 When some exception which is not critical is thrown on the backend side, it is being encoded and passed with appropriate

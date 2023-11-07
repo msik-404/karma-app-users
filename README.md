@@ -133,35 +133,20 @@ All the code which comes into contact with data persistence is tested in integra
 The rest of the code is much simpler and easier to follow and was tested manually using postman.
 
 # Starting the microservice | deployment for testing
+
+To start the microservice locally, docker compose is required.
+
 In this repository one can find [docker-compose-yaml](https://github.com/msik-404/karma-app-users/blob/main/docker-compose.yaml).
 
-To start the microservice one should use provided bash scripts but pure docker can also be used.
-
-## Bash scripts
-Bash scripts can be found under [scripts](https://github.com/msik-404/karma-app-users/tree/main/scripts) folder.
-
-Starting microservice: [start.sh](https://github.com/msik-404/karma-app-users/blob/main/scripts/start.sh)
-
-Stopping microservice: [stop.sh](https://github.com/msik-404/karma-app-users/blob/main/scripts/stop.sh)
-
-Cleaning after microservice: [clean.sh](https://github.com/msik-404/karma-app-users/blob/main/scripts/clean.sh)
-
-To run the scripts make them executable for example:
-```
-sudo chmod 744 *.sh
-```
-and then use:
-```
-./start.sh
-```
-```
-./stop.sh
-```
-```
-./clean.sh
-```
-
-## Pure docker method
+To start all containers one should run in the root of the project:
 ```
 docker compose up
+```
+To stop containers:
+```
+docker compose stop
+```
+To remove containers and their data:
+```
+docker compose down -v
 ```

@@ -2,16 +2,16 @@ version: '3.9'
 
 services:
   backend:
-    depends_on:
-      - mongo
     build: .
-    env_file:
-      - .env
     hostname: ${KARMA_APP_USERS_HOST}
     ports:
       - 50052:50051
     networks:
-      - karma-app-net
+      - net
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo
@@ -19,7 +19,7 @@ services:
     ports:
       - 27018:27017
     networks:
-      - karma-app-net
+      - net
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${KARMA_APP_USERS_DB_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${KARMA_APP_USERS_DB_PASSWORD}
@@ -34,7 +34,7 @@ services:
     ports:
       - 8082:8081
     networks:
-      - karma-app-net
+      - net
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${KARMA_APP_USERS_DB_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${KARMA_APP_USERS_DB_PASSWORD}
@@ -48,6 +48,6 @@ volumes:
     driver: local
 
 networks:
-  karma-app-net:
-    name: karma-app-net
+  net:
+    name: net
     driver: bridge

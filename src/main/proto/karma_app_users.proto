@@ -8,6 +8,7 @@ option java_outer_classname = "KarmaAppUsersProtos";
 
 import "google/protobuf/empty.proto";
 import "buf/validate/validate.proto";
+import "mongo_object_id.proto";
 
 service Users {
 
@@ -15,15 +16,11 @@ service Users {
   rpc updateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
 
   rpc findCredentials(CredentialsRequest) returns (CredentialsResponse) {}
-  rpc findUserRole(UserRoleRequest) returns (UserRoleResponse) {}
-  rpc findUsername(UsernameRequest) returns (UsernameResponse) {}
+  rpc findUserRole(protomongo.ProtoObjectId) returns (UserRoleResponse) {}
+  rpc findUsername(protomongo.ProtoObjectId) returns (UsernameResponse) {}
   rpc findUsernames(UsernamesRequest) returns (UsernamesResponse) {}
-  rpc findUserId(UserIdRequest) returns (MongoObjectId) {}
+  rpc findUserId(UserIdRequest) returns (protomongo.ProtoObjectId) {}
 
-}
-
-message MongoObjectId {
-  optional string hexString = 1 [(buf.validate.field).string.len = 24, (buf.validate.field).required = true];
 }
 
 enum UserRole {
@@ -42,7 +39,7 @@ message CreateUserRequest {
 }
 
 message UpdateUserRequest {
-  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
+  optional protomongo.ProtoObjectId userId = 1 [(buf.validate.field).required = true];
   optional string firstName = 2;
   optional string lastName = 3;
   optional string username = 4;
@@ -56,21 +53,13 @@ message CredentialsRequest {
 }
 
 message CredentialsResponse {
-  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
+  optional protomongo.ProtoObjectId userId = 1 [(buf.validate.field).required = true];
   optional string password = 2 [(buf.validate.field).required = true];
   optional UserRole role = 3 [(buf.validate.field).required = true];
 }
 
-message UserRoleRequest {
-  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
-}
-
 message UserRoleResponse {
   optional UserRole role = 1 [(buf.validate.field).required = true];
-}
-
-message UsernameRequest {
-  optional MongoObjectId userId = 1 [(buf.validate.field).required = true];
 }
 
 message UsernameResponse {

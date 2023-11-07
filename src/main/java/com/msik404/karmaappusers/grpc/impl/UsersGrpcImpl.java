@@ -7,6 +7,7 @@ import build.buf.protovalidate.Validator;
 import build.buf.protovalidate.exceptions.ValidationException;
 import com.google.protobuf.Empty;
 import com.google.protobuf.Message;
+import com.msik404.grpc.mongo.id.ProtoObjectId;
 import com.msik404.karmaappusers.grpc.*;
 import com.msik404.karmaappusers.grpc.impl.exception.FailedValidationException;
 import com.msik404.karmaappusers.grpc.impl.exception.UnsupportedRoleException;
@@ -120,7 +121,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             IdAndHashedPasswordAndRoleOnlyDto credentials = service.findCredentials(request.getEmail());
 
             var response = CredentialsResponse.newBuilder()
-                    .setUserId(MongoObjectId.newBuilder().setHexString(credentials.id().toHexString()).build())
+                    .setUserId(ProtoObjectId.newBuilder().setHexString(credentials.id().toHexString()).build())
                     .setPassword(credentials.password())
                     .setRole(RoleMapper.map(credentials.role()))
                     .build();
@@ -135,7 +136,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUserRole(
-            UserRoleRequest request,
+            ProtoObjectId request,
             StreamObserver<UserRoleResponse> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
@@ -144,7 +145,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         }
 
         try {
-            Role role = service.findRole(new ObjectId(request.getUserId().getHexString()));
+            Role role = service.findRole(new ObjectId(request.getHexString()));
 
             var response = UserRoleResponse.newBuilder()
                     .setRole(RoleMapper.map(role))
@@ -160,11 +161,11 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
 
     @Override
     public void findUsername(
-            UsernameRequest request,
+            ProtoObjectId request,
             StreamObserver<UsernameResponse> responseObserver) {
 
         try {
-            String username = service.findUsername(new ObjectId(request.getUserId().getHexString()));
+            String username = service.findUsername(new ObjectId(request.getHexString()));
 
             var response = UsernameResponse.newBuilder().setUsername(username).build();
 
@@ -202,7 +203,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
     @Override
     public void findUserId(
             UserIdRequest request,
-            StreamObserver<MongoObjectId> responseObserver) {
+            StreamObserver<ProtoObjectId> responseObserver) {
 
         boolean isSuccess = validate(request, responseObserver);
         if (!isSuccess) {
@@ -212,7 +213,7 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
         try {
             ObjectId userId = service.findUserId(request.getUsername());
 
-            var response = MongoObjectId.newBuilder().setHexString(userId.toHexString()).build();
+            var response = ProtoObjectId.newBuilder().setHexString(userId.toHexString()).build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();

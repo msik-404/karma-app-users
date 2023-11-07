@@ -36,7 +36,7 @@ some_personal_path/karma-app-users/target/protoc-dependencies/some-long-code. Un
 following files buf/validate/priv/expression.proto and buf/validate/priv/validate.proto.
 
 Additionally, [mongo_object_id.proto](https://github.com/msik-404/karma-app-users/blob/main/src/main/proto/mongo_object_id.proto)
-also needs to be imported in the same manner sa above. Just import path to [proto](https://github.com/msik-404/karma-app-posts/tree/main/src/main/proto)
+also needs to be imported in the same manner sa above. Just import path to [proto](https://github.com/msik-404/karma-app-users/tree/main/src/main/proto)
 folder. This is because mongo_object_id defines messages which are used in many microservices. Duplicating them would
 case code-duplication and smelly code.
 

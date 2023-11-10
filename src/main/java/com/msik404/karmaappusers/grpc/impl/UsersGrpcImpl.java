@@ -101,7 +101,8 @@ public class UsersGrpcImpl extends UsersGrpc.UsersImplBase {
             responseObserver.onNext(Empty.getDefaultInstance());
             responseObserver.onCompleted();
 
-        } catch (UserNotFoundException | UnsupportedRoleException | DuplicateUsernameException | DuplicateEmailException |
+        } catch (UserNotFoundException | UnsupportedRoleException | DuplicateUsernameException |
+                 DuplicateEmailException |
                  DuplicateUnexpectedFieldException ex) {
             responseObserver.onError(ex.asStatusRuntimeException());
         }
